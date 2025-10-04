@@ -3,7 +3,6 @@ marp: true
 title: How to do Code Review like a Pro
 description: 15-minute lightning talk
 theme: uncover
-footer: '![height:70px](assets/openinfra-2025-logo2.png)'
 style: |
   section { font-size: 28px; }
   h1 { font-size: 54px; }
