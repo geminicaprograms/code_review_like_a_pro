@@ -222,7 +222,7 @@ Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus
 - Adopt **Conventional Comments** + severity tags.
 - Pilot **Conventional Commits** for 2 weeks.
 
-<sub>Thanks!</sub>
+<sub>Thanks! [https://geminicaprograms.github.io/open_infra_summit_2025](https://geminicaprograms.github.io/open_infra_summit_2025)</sub>
 
 <!--
 Three rules to remember: focus diffs, coach with principles, automate nits. Start this Friday. Add a review template. Label your comments with severity. Try Conventional Commits for two weeks—you'll see cleaner history. Turn on Copilot code review. Let agents do scaffolding. Small changes compound into faster, better reviews. Thank you.
