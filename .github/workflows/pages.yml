@@ -1,42 +1,54 @@
-name: Build & Deploy Marp deck
+name: Publish Marp slides to GitHub Pages (branch-subpaths)
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - events/**
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Build slides → docs/index.html
-        run: npx @marp-team/marp-cli@latest slides.md -o docs/index.html --allow-local-files
-      - name: Copy assets
-        run: mkdir -p docs/assets && cp -r assets/* docs/assets/
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+
+      - name: Build deck into ./site
+        run: |
+          mkdir -p site
+          npx @marp-team/marp-cli@latest 15min_lightning_talk.md -o site/index.html --allow-local-files
+          if [ -d assets ]; then mkdir -p site/assets && cp -r assets/* site/assets/; fi
+          echo "Built files:" && ls -la site
+          test -f site/index.html || { echo "❌ No site/index.html built"; exit 1; }
+
+      - name: Compute destination dir
+        id: dest
+        run: |
+          BRANCH='${{ github.ref_name }}'          # e.g. "events/openinfra-2025"
+          SAFE="${BRANCH//\//-}"                   # replace "/" with "-" for folder safety
+          if [[ "$BRANCH" == "master" ]]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"       # publish to site root
+          else
+            echo "dir=$SAFE" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Publishing to: $(cat $GITHUB_OUTPUT)"
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: docs
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site
+          destination_dir: ${{ steps.dest.outputs.dir }}
+          keep_files: true
