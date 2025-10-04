@@ -58,7 +58,8 @@ Paraphrasing McIntosh: “Review is a software quality tool and a knowledge-tran
 ## Tangible outcomes
 #### Readable diffs. Reliable changes. Repeatable decisions
 - **Review turnaround** ≤ 1 business day
-- **Median review size** ≤ ??? changed lines, chain of changes
+- **Median review size** ≤ ??? changed lines
+- **Tests updated:** CI green on merge
 - **Traceability:** link issue / ADR / RFC
 - **Post-release defects** trending down
 
@@ -155,13 +156,13 @@ Conventional Comments give structure. Tag tells clearly the intent—is this blo
 
 <!-- Slide 9: Bad → Good Comment example -->
 ## Bad → Good (comment example)
-**Bad:** _“This is wrong. Use a map.”_
+**Bad:** _“Just use a map here.”_
 
 **Good (Conventional Comments):**
 ```
-issue (blocking): Violates performance invariant (stable O(1) lookup).
-Context: List lookup is O(n) and grows with each call.
-Suggestion: Use map; preserves O(1).
+issue (blocking): Replace linear search with HashMap
+Context: List lookup is O(n) and grows with each element added.
+Suggestion: userMap.get(id) instead of users.find(); preserves O(1).
 Outcome: Faster and consistent under load.
 ```
 
@@ -194,14 +195,14 @@ Institutionalize habits so quality scales.
 | Anti-pattern | Fix |
 |--------------|-----|
 | Mega-PRs | Split by feature or commits |
-| Drive-by nit-picking | Use major/blocker |
+| Drive-by nit-picking | Use "issue(blocking)" |
 | Rubber-stamps | "What I checked" comment |
 | Bikeshedding | Cite guideline, short RFC, follow-up |
 
 <sub>Block on principles, not preferences.<sub>
 
 <!--
-Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus on major issues. Rubber stamps mean no real review—ask reviewers to state what they verified. Bikeshedding: arguing tabs versus spaces, wastes energy. Cite a team guideline or write a quick RFC, agree to follow-up. Block on architecture, not formatting.
+Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus on blocking issues. Rubber stamps mean no real review—ask reviewers to state what they verified. Bikeshedding: arguing tabs versus spaces, wastes energy. Cite a team guideline or write a quick RFC, agree to follow-up. Block on architecture, not formatting.
 -->
 
 ---
