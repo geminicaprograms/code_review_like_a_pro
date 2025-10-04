@@ -99,7 +99,7 @@ Authors often defend their code. Wrong mindset. Instead, optimize for review spe
 <sub>[https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)</sub>
 
 <!--
-Keep reviews focused: one feature, one bug (chain reviews or at least commits, cross layers - plant that in your agents). Use a template so reviewers know context instantly. Conventional Commits make history scannable. Self-review catches 30% of issues before human eyes see it. Run all checks locally—don't waste reviewer time on lint errors. Agents (like claude, copilot, ...) can draft boilerplate/solution - you validate correctness. This prep work pays dividends.
+Keep reviews focused: one feature, one bug (chain reviews or at least commits, cross layers - plant that in your agents). Use a template so reviewers know context instantly. Conventional Commits make history scannable. Self-review catches issues before human eyes see it. Run all checks locally—don't waste reviewer time on lint errors. Agents (like claude, copilot, ...) can draft boilerplate/solution - you validate correctness. This prep work pays dividends.
 -->
 
 ___
