@@ -219,7 +219,7 @@ Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus
 <div class="left-align">By next Friday:</div>
 
 - Use review template & self-review checklist.
-- Adopt **Conventional Comments** + severity tags.
+- Adopt **Conventional Comments** + tags and severity labels.
 - Pilot **Conventional Commits** to improve history.
 
 <sub>Thanks! [https://geminicaprograms.github.io/code_review_like_a_pro/](https://geminicaprograms.github.io/code_review_like_a_pro/)</sub>
