@@ -221,7 +221,7 @@ Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus
 
 - Use review template & self-review checklist.
 - Adopt **Conventional Comments** + severity tags.
-- Pilot **Conventional Commits** for 2 weeks.
+- Pilot **Conventional Commits** to improve history.
 
 <sub>Thanks! [https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/](https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/)</sub>
 
