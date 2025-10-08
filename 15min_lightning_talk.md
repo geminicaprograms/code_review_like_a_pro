@@ -162,9 +162,9 @@ Conventional Comments give structure. Tag tells clearly the intent—is this blo
 **Good (Conventional Comments):**
 ```
 issue (blocking): Replace linear search with HashMap
-Context: List lookup is O(n) and grows with each element added.
-Suggestion: userMap.get(id) instead of users.find(); preserves O(1).
-Outcome: Faster and consistent under load.
+Context: List lookup is O(n) - bigger n slower lookup. Map preserves O(1).
+Suggestion: userMap.get(id) instead of users.find()
+Outcome: Maintains performance under load
 ```
 
 <sub>Coach with principles; show the outcome.</sub>
