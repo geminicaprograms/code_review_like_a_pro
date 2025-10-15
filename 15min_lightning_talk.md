@@ -30,8 +30,10 @@ style: |
 
 <sub><b>Jacek:</b> hands-on engineer & architect, code reviews daily, Gerrit maintainer</sub>
 <!--
-Hook: “Most teams treat review as a gate. Pros treat it as the fastest learning loop in the codebase.”
-Promise: in 15 minutes they’ll learn how authors and reviewers make reviews faster, clearer, and more useful.
+Hi, I’m Jacek — hands‑on software engineer and architect, code review daily practitioner, last and NOT least Gerrit maintainer.
+Today we're talking about how to do code review like a pro.
+The answer is simple: treat review as the fastest learning loop.
+Not a gate, not a formality - a learning loop. If we optimize that loop, quality will follow.
 -->
 
 ---
@@ -49,8 +51,9 @@ Promise: in 15 minutes they’ll learn how authors and reviewers make reviews fa
 <sub>[Bacchelli & Bird (ICSE’13)](https://sback.it/publications/icse2013.pdf); [Wen–Lamothe–McIntosh (ICSE‑SEIP’22)](https://lamothemax.github.io/assets/papers/rwen_icse_2022.pdf)<sub>
 
 <!--
-Code review isn't just bug-catching game. When a senior dev explains why we chose this pattern, that knowledge spreads. When teams align on style through review, consistency improves. Research confirms review delivers both quality gains and knowledge transfer. This dual benefit makes it irreplaceable.
-Paraphrasing McIntosh: “Review is a software quality tool and a knowledge-transfer tool. Focus on knowledge transfer and quality follows.”
+Code review isn't just about catching bugs. It's our best opportunity for knowledge transfer. When a senior developer explains why we chose this architectural pattern during review, that knowledge spreads to the whole team. When we align on practices through review, consistency improves across the codebase. When we share domain insights we break down silos.
+
+Research backs this up. Studies show that code review serves dual purposes: technical quality improvements and knowledge sharing among team members. It is not some imaginary situation described in book: It's mentoring in context, exactly when developers need it. This dual benefit is review's USP.
 -->
 
 ---
@@ -67,8 +70,19 @@ Paraphrasing McIntosh: “Review is a software quality tool and a knowledge-tran
 <sub>_"Higher participation & coverage → fewer post-release defects."_ [McIntosh et al., MSR 2014; EMSE 2016](https://rebels.cs.uwaterloo.ca/papers/emse2016_mcintosh.pdf)</sub>
 
 <!--
-Fast turnaround keeps flow state. Small PRs get better reviews (limited focus span, context switch). Green CI and traceability make changes auditable. Track defects to confirm we're improving.
-Coverage and participation correlate with fewer post-release defects. Knowledge sharing lifts both.
+So what does "good review" look like? How it could be measured?
+
+Review turnaround under one business day — keeps developers in flow state, prevents costly context switching.
+
+Median PR size with reasonable amount of changed lines — research and practice show smaller changes get better, faster reviews.
+
+Tests updated and CI green on merge — let automation police correctness baselines so reviews focus on design.
+
+Traceability: every PR links to an issue, ADR, or RFC—makes changes auditable months later.
+
+Post-release defects trending down—the ultimate outcome metric. If defects are dropping, our review process is working.
+
+Evidence matters. Research from McIntosh and colleagues showed that coverage and participation directly correlate with fewer escaped defects. Measure what matters.
 -->
 
 ---
@@ -81,7 +95,9 @@ _"If it’s hard to review, it’s hard to maintain."_
 <sub>Your job: help reviewers help you.<sub>
 
 <!--
-Authors often defend their code. Wrong mindset. Instead, optimize for review speed and quality. Make it trivial for reviewers to understand context, spot issues, and provide valuable feedback. This shift accelerates the entire cycle.
+As an author, move from “prove it works” to “make it easy to review.”
+
+Many developers approach PRs defensively—here's my code, here's why it's correct, approve it. Wrong mindset. Instead, optimize for reviewer success. Your job is to help reviewers help you. Make it trivial for them to understand context, spot real issues, and provide valuable feedback. This mindset shift reduces the review cycle, keeps participation high and as a result accelerates the entire review cycle.
 -->
 
 ---
@@ -100,7 +116,19 @@ Authors often defend their code. Wrong mindset. Instead, optimize for review spe
 <sub>[https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)</sub>
 
 <!--
-Keep reviews focused: one feature, one bug (chain reviews or at least commits, cross layers - plant that in your agents). Use a template so reviewers know context instantly. Conventional Commits make history scannable. Self-review catches issues before human eyes see it. Run all checks locally—don't waste reviewer time on lint errors. Agents (like claude, copilot, ...) can draft boilerplate/solution - you validate correctness. This prep work pays dividends.
+How do authors make review easy? Six techniques.
+
+First, keep reviews small — one concern per change. A focused diff is a reviewable diff.
+
+Second, use a review description template. Answer: What was changed and why - what is the intent? How should I review this? What tests did you add? What's the rollout plan? This context is gold.
+
+Third, adopt Conventional Commits for clear history. Prefixes like "fix:", "feat:", etc. make git log scannable and enable changelog automation.
+
+Fourth, run a self-review checklist before requesting review. You'll catch issues yourself—don't waste reviewer time on things you could have spotted. Again this can be a team wide checklist that you can collectively build with points like: naming conventions, tests coverage etc...
+
+Fifth, employ IDE and builder to run format, lint, grammar checks and tests (if feasible) locally before review. Don't send broken code. Let CI be a safety net, not the first line of defense.
+
+Sixth, if you company policy allows then use coding agent to scaffold tests or boilerplate function — then you verify correctness. Copilot and others can draft anything from scaffold to fully functioning code parts; you ensure it's right. Never offload the verification part to CI or reviewers.
 -->
 
 ___
@@ -128,7 +156,11 @@ img[alt~="center"] {
 <sub>Principles over opinions.</sub>
 
 <!--
-Reviewers often play gotcha. Better approach: teach. Label severity so authors know what's critical versus optional. Explain the principle behind your feedback - link ADR, etc.. that's knowledge transfer in action tied to the context.
+As a reviewer, shift from “find flaws” to “coach craft.”
+
+You’re not just a gate; you’re a guide. Always label severity so authors can prioritize: blocking (must fix before merge), nnn-blocking (important but not a show-stopper, can be addressed in follow-up), nit (minor polish).
+
+And explain principles, not just fixes. Buck it up, if needed, with evidence. When you teach the underlying reason — "we use dependency injection here to enable testing" — that's knowledge transfer in action. You're not just fixing this PR; you're leveling up this developer.
 -->
 
 ---
@@ -169,6 +201,24 @@ Outcome: Maintains performance under load
 
 <sub>Coach with principles; show the outcome.</sub>
 
+<!--
+Let’s rewrite a terse, low‑context comment into a coaching comment grounded in principles.
+
+Before: “Just use a map here.”
+No rationale, no severity, no guidance, no outcome.
+
+After (Conventional Comments):
+issue: Replace linear search with HashMap
+
+Context: List lookup is O(n) and grows with each element added. That is the place to cite/link principles
+
+Suggestion: userMap.get(id) instead of users.find(); preserves O(1)
+
+Outcome: Keeps latency stable under load; fewer timeouts under peak.
+
+Finally, label blocking depending on the SLA risk. Notice how the “why” is explicit, the fix is concrete, and the effect is measurable.
+-->
+
 ---
 
 <!-- Slide 10: Team practices & tooling -->
@@ -184,8 +234,19 @@ Outcome: Maintains performance under load
 <sub>Make great reviews the default.</sub>
 
 <!--
-Systemize quality. Templates ensure consistency. Code owners or rotation guarantee coverage and knowledge spread. SLA prevents PRs from loosing traction. Link to ADRs when you invoke a principle—builds institutional memory. Tooling catch trivial issues. Agent code review can draft initial feedback. Conventional Commits make git log useful. Saved replies save time and spread best practices.
-Institutionalize habits so quality scales.
+Sustainable review culture is a team sport:
+
+Add review description templates to your repository — consistency by default. Use CODEOWNERS or rotation to ensure coverage and boost participation.
+
+Set an SLA: first response within one business day — keeps the momentum.
+
+Link to ADRs or RFCs when you cite a principle — builds institutional memory.
+
+Employ tools: let IDE formatters, linters and unit tests — catch trivial issues before human review. Enable and tune agent (like Copilot) code review on your PRs to draft initial feedback: reviewers still label severity and apply Conventional Comments.
+
+Adopt Conventional Commits for clean history that enables automation and give additional context to reviewer.
+
+Use tools mentioned in the ConventionalComments or create saved replies that follow their format — save time and spread best practices.
 -->
 
 ---
@@ -203,7 +264,17 @@ Institutionalize habits so quality scales.
 <sub>Block on principles, not preferences.<sub>
 
 <!--
-Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus on blocking issues. Rubber stamps mean no real review—ask reviewers to state what they verified. Bikeshedding: arguing tabs versus spaces, wastes energy. Cite a team guideline or write a quick RFC, agree to follow-up. Block on architecture, not formatting.
+Watch out for four anti-patterns.
+
+Mega‑PRs - overwhelm reviewers. Fix: split by concern and land behind feature flags.
+
+Drive‑by nit-picking without priority wastes time. Fix: batch nits together; focus the rest on principles.
+
+Rubber‑stamps mean no real review happened. Fix: require a short “what I checked” checklist to make review effort visible.
+
+Bikeshedding - endlessly debating trivial style. Fix: cite a guideline, draft a short RFC, agree to follow-up; timebox the thread and move on.
+
+Block on principles, not preferences. Architecture matters. Formatting doesn't.
 -->
 
 ---
@@ -226,5 +297,21 @@ Mega-PRs overwhelm—split them. Nit-picking without priority wastes time, focus
 <sub>Thanks! [https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/](https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/)</sub>
 
 <!--
-Three rules to remember: focus diffs, coach with principles, automate nits. Start this Friday. Add a review template. Label your comments with severity. Try Conventional Commits for two weeks—you'll see cleaner history. Turn on Copilot code review. Let agents do scaffolding. Small changes compound into faster, better reviews. Thank you.
+The 3 things that you can carry out of the room:
+
+Focus the diff. Small, well‑explained changes get better feedback.
+
+Coach with principles. Use Conventional Comments to make the “why” explicit.
+
+Let tools police nits. IDE, formatter, linters, CI, and Copilot handle the grind so humans make judgment calls.
+
+By the next Friday, try these moves:
+
+Use the review template and a quick self‑review checklist.
+
+Adopt Conventional Comments with tags and severity decorations.
+
+Pilot Conventional Commits to improve history and give extra context.
+
+Do these, and you’ll make reviews faster, more consistent, and more effective — and your team will level up together. Thank you.
 -->
