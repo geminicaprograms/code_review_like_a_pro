@@ -3,6 +3,7 @@ marp: true
 title: How to do Code Review like a Pro
 description: 15-minute lightning talk
 theme: uncover
+footer: '![height:40px](assets/sml_logo_transparent.png)'
 style: |
   section { font-size: 28px; }
   h1 { font-size: 54px; }
@@ -27,9 +28,9 @@ style: |
 ### Treat review as the fastest learning loop.
 
 
-<sub><b>Jacek:</b> hands-on engineer & architect, code reviews daily, Gerrit maintainer</sub>
+<sub><b>Dżejsik:</b> scala backend engineer, code reviews daily, Gerrit maintainer</sub>
 <!--
-Hi, I’m Jacek — hands‑on software engineer and architect, code review daily practitioner, last and NOT least Gerrit maintainer.
+Hi, I’m Jacek — hands‑on scala backend engineer, code review daily practitioner, last and NOT least Gerrit maintainer.
 Today we're talking about how to do code review like a pro.
 The answer is simple: treat review as the fastest learning loop.
 Not a gate, not a formality - a learning loop. If we optimize that loop, quality will follow.
