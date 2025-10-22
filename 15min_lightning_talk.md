@@ -315,3 +315,42 @@ Pilot Conventional Commits to improve history and give extra context.
 
 Do these, and you’ll make reviews faster, more consistent, and more effective — and your team will level up together. Thank you.
 -->
+
+---
+
+<!-- Slide 13: Behind the scenes -->
+## Behind the scenes: the meat
+
+- Practitioner of both **formal** and **informal** code reviews.
+- Daily user of **Gerrit**, **GitHub**, and **GitLab**.
+- Contributor at **Gerrit User Summits**.
+- Completed **Akademia Prezentera** presenter training.
+
+<sub>Your work</sub>
+
+<!--
+The training helped me shape the narrative.
+-->
+
+---
+
+<!-- Slide 14: Behind the scenes -->
+## Behind the scenes: the spices
+
+- Guidelines tailored to a fluent-but non-native-speaker.
+- [Marp](https://marp.app/) Markdown as the presentation engine.
+- GitHub CI/CD for build & publishing automation.
+- Let an agent draft the **memorization** script (you refine it).
+- Let an agent draft the rehearsal plan.
+- Delegate the boring stuff: grammar/links checks, images.
+
+<sub>AI support</sub>
+
+<!--
+Prompt for presentation guidelines:
+You are an experienced presenter who specializes in 15-min lightning talks.
+Your job is to give general and specific guidelines to prepare a 15-min talk
+for an audience of software engineers — 12–18 slides, trimmed to 11 (110–125 wpm).
+
+Research on Markdown presentation engines.
+-->
