@@ -28,7 +28,7 @@ style: |
 ### Treat review as the fastest learning loop.
 
 
-<sub><b>Dżejsik:</b> scala backend engineer, code reviews daily, Gerrit maintainer</sub>
+<sub><b>Dżejsik:</b> software engineer, code reviews daily, Gerrit maintainer</sub>
 <!--
 Hi, I’m Jacek — hands‑on scala backend engineer, code review daily practitioner, last and NOT least Gerrit maintainer.
 Today we're talking about how to do code review like a pro.
