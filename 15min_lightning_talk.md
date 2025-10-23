@@ -256,7 +256,7 @@ Use tools mentioned in the ConventionalComments or create saved replies that fol
 
 | Anti-pattern | Fix |
 |--------------|-----|
-| Mega-PRs | Split by feature or commits |
+| Mega-PRs | Split by feature or commits ([GitButler](https://gitbutler.com/), [jj](https://jj-vcs.github.io/jj/latest/)) |
 | Drive-by nit-picking | Use "issue(blocking)" |
 | Rubber-stamps | "What I checked" comment |
 | Bikeshedding | Cite guideline, short RFC, follow-up |
