@@ -24,7 +24,7 @@ style: |
 ---
 
 <!-- Slide 1: Title -->
-# How to do Code Review like a Pro
+# [How to do Code Review like a Pro](https://youtu.be/7pcb1p3hTtg?si=sUCdZ4ap8zHRp0Ua)
 ### Treat review as the fastest learning loop.
 
 
@@ -294,7 +294,7 @@ Block on principles, not preferences. Architecture matters. Formatting doesn't.
 - Adopt **Conventional Comments** + tags and severity labels.
 - Pilot **Conventional Commits** to improve history.
 
-<sub>Thanks! [https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/](https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/)</sub>
+<sub>Thanks! Resources: [slides](https://geminicaprograms.github.io/code_review_like_a_pro/events-openinfra-2025/), [recording](https://youtu.be/7pcb1p3hTtg?si=sUCdZ4ap8zHRp0Ua)</sub>
 
 <!--
 The 3 things that you can carry out of the room:
