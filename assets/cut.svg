@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Left: four horizontal layer boxes, each part n of 4, none working alone. Right: three vertical slices that each cross all four layers and carry a test">
+  <defs>
+    <pattern id="dots2" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#d6e0ea"/></pattern>
+    <filter id="lift2" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f1a26" flood-opacity=".14"/></filter>
+    <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker>
+  </defs>
+  <style>
+    text { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #0f1a26; }
+    .mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace; }
+    .tag { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; fill: #4d6074; }
+    .t { font-size: 20px; font-weight: 600; }
+    .cap { font-size: 15px; fill: #4d6074; }
+    .chip { font-size: 13px; fill: #b0341e; }
+    .frame { fill: none; stroke: #d6e0ea; stroke-width: 1.5; stroke-dasharray: 6 5; rx: 10; }
+    .layer { fill: #ffffff; stroke: #b0341e; stroke-width: 1.5; rx: 6; }
+    .band { fill: #f2f6fa; stroke: none; }
+    .bandlbl { font-size: 13px; fill: #818f9e; }
+    .slice { fill: #ffffff; stroke: #1c7443; stroke-width: 2; rx: 6; }
+    .slicefill { fill: #e9f5ee; }
+    .edge { fill: none; stroke: #b0341e; stroke-width: 1.5; stroke-dasharray: 4 4; }
+    .dot { fill: #1c7443; }
+  </style>
+
+  <rect x="0" y="0" width="1200" height="400" fill="url(#dots2)" opacity=".55"/>
+
+  <!-- LEFT: cut by layer -->
+  <rect x="24" y="24" width="560" height="352" class="frame"/>
+  <text x="44" y="52" class="tag mono">cut by layer · a stack of PRs</text>
+  <g filter="url(#lift2)">
+    <rect x="60" y="72" width="420" height="50" class="layer"/>
+    <rect x="60" y="138" width="420" height="50" class="layer"/>
+    <rect x="60" y="204" width="420" height="50" class="layer"/>
+    <rect x="60" y="270" width="420" height="50" class="layer"/>
+  </g>
+  <text x="76" y="103" class="t">config</text><text x="464" y="103" class="chip mono" text-anchor="end">part 1/4</text>
+  <text x="76" y="169" class="t">service</text><text x="464" y="169" class="chip mono" text-anchor="end">part 2/4</text>
+  <text x="76" y="235" class="t">REST view</text><text x="464" y="235" class="chip mono" text-anchor="end">part 3/4</text>
+  <text x="76" y="301" class="t">SSH command</text><text x="464" y="301" class="chip mono" text-anchor="end">part 4/4</text>
+  <!-- depends-on arrows, bottom → top -->
+  <path d="M516,295 V128" class="edge" marker-end="url(#ah2)"/>
+  <text x="536" y="214" class="cap" fill="#b0341e" transform="rotate(-90 536,214)" text-anchor="middle">4 needs 3 needs 2 needs 1</text>
+  <text x="44" y="356" class="cap">nothing works alone · reviewer of 2/4 must read 4/4 · revert one? revert all</text>
+
+  <!-- RIGHT: cut by concern -->
+  <rect x="616" y="24" width="560" height="352" class="frame"/>
+  <text x="636" y="52" class="tag mono">cut by concern · a relation chain</text>
+  <!-- layer bands behind -->
+  <rect x="640" y="72" width="500" height="50" class="band"/><text x="1160" y="103" class="bandlbl mono" text-anchor="end">config</text>
+  <rect x="640" y="138" width="500" height="50" class="band"/><text x="1160" y="169" class="bandlbl mono" text-anchor="end">service</text>
+  <rect x="640" y="204" width="500" height="50" class="band"/><text x="1160" y="235" class="bandlbl mono" text-anchor="end">REST</text>
+  <rect x="640" y="270" width="500" height="50" class="band"/><text x="1160" y="301" class="bandlbl mono" text-anchor="end">SSH</text>
+  <!-- slices -->
+  <g filter="url(#lift2)">
+    <rect x="656" y="64" width="128" height="264" class="slice slicefill"/>
+    <rect x="800" y="64" width="128" height="264" class="slice slicefill"/>
+    <rect x="944" y="64" width="128" height="264" class="slice slicefill"/>
+  </g>
+  <!-- layer dots inside each slice -->
+  <g class="dot">
+    <circle cx="672" cy="97" r="4"/><circle cx="672" cy="163" r="4"/><circle cx="672" cy="229" r="4"/><circle cx="672" cy="295" r="4"/>
+    <circle cx="816" cy="97" r="4"/><circle cx="816" cy="163" r="4"/><circle cx="816" cy="229" r="4"/><circle cx="816" cy="295" r="4"/>
+    <circle cx="960" cy="97" r="4"/><circle cx="960" cy="163" r="4"/><circle cx="960" cy="229" r="4"/><circle cx="960" cy="295" r="4"/>
+  </g>
+  <text x="728" y="176" class="t" text-anchor="middle">greeting</text><text x="728" y="200" class="t" text-anchor="middle">prefix</text>
+  <text x="872" y="176" class="t" text-anchor="middle">REST</text><text x="872" y="200" class="t" text-anchor="middle">greeting</text>
+  <text x="1016" y="176" class="t" text-anchor="middle">SSH</text><text x="1016" y="200" class="t" text-anchor="middle">greet</text>
+  <text x="728" y="312" class="cap mono" text-anchor="middle" fill="#1c7443">+ test</text>
+  <text x="872" y="312" class="cap mono" text-anchor="middle" fill="#1c7443">+ test</text>
+  <text x="1016" y="312" class="cap mono" text-anchor="middle" fill="#1c7443">+ test</text>
+  <text x="636" y="356" class="cap">each slice builds alone · reviewable alone · revertable alone · merge the bottom first</text>
+</svg>

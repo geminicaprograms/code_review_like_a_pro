@@ -25,13 +25,24 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build deck into ./site
+      - name: Check the decks
         run: |
-          mkdir -p site
-          npx @marp-team/marp-cli@latest 15min_lightning_talk.md -o site/index.html --allow-local-files
-          if [ -d assets ]; then mkdir -p site/assets && cp -r assets/* site/assets/; fi
-          echo "Built files:" && ls -la site
+          bash tools/check-deck.sh 15min_stack_changes.md --no-notes-slide 4 --no-build
+
+      - name: Build both decks into ./site
+        run: |
+          mkdir -p site/stack
+          MARP="npx -y @marp-team/marp-cli@4.5.1"
+          $MARP 15min_lightning_talk.md -o site/index.html --allow-local-files
+          $MARP 15min_stack_changes.md  -o site/stack/index.html --allow-local-files
+          if [ -d assets ]; then
+            mkdir -p site/assets site/stack/assets
+            cp -r assets/* site/assets/
+            cp -r assets/* site/stack/assets/
+          fi
+          echo "Built files:" && ls -laR site | head -40
           test -f site/index.html || { echo "❌ No site/index.html built"; exit 1; }
+          test -f site/stack/index.html || { echo "❌ No site/stack/index.html built"; exit 1; }
 
       - name: Compute destination dir
         id: dest
