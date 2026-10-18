@@ -146,7 +146,7 @@ And the Change-Id footer isn't only ours anymore — in 2025 Gerrit, GitButler a
 - **Chain length follows the concerns:** merge the bottom as soon as it's approved.
 - **The chain outlives the rework:** Change-Ids survive every amend and rebase; restacking is tooling's job.
 
-**Conventions travel with the repo:** the team opts in with a committed `.gerrit-stack`; commitlint and Conventional Comments are examples, nothing is imposed by default.
+**Conventions travel with the repo:** the team writes them down (`AGENTS.md`, `CONTRIBUTING`); commitlint and Conventional Comments are examples, nothing is imposed by default.
 
 <sub>[SmartBear](https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/): 200–400 lines per sitting · [arXiv 2607.20189](https://arxiv.org/abs/2607.20189): 1/3 of chains restructured, 2.6× slower to merge</sub>
 
@@ -161,7 +161,7 @@ Third, chain length follows the concerns. Three concerns, three changes; eight c
 
 Fourth, the chain outlives the rework. You know what the Change-Id is. What's new is the author: an agent amends and rebases a lot, and every one of those steps has to keep the id. And here's the honest number — a study of 30,000 Gerrit chains this summer found that chain changes take 2.6 times longer to merge than single changes of the same size, and one third get restructured during review. Restacking is the price of a chain. Pay it with tooling, not with authors: rebase chain, fixup and autosquash, Change-Ids verified, the chain re-pushed as one. The rework scenario on slide 10 measures exactly this.
 
-And the rule for the repo: conventions travel with it. gerrit-stack ships no convention of its own and nothing is on by default — the Gerrit project itself, on gerrit-review, enforces neither commitlint nor Conventional Comments. But if your team has a commitlint config, the plugin runs it on every commit, and if the team file says Conventional Comments, the review guard holds the agent to it. Examples, not rules. Committed files, not lines in a prompt. The agent follows the team, not the chat.
+And the rule for the repo: conventions travel with it. The port ships no convention of its own and nothing is on by default — the Gerrit project itself, on gerrit-review, enforces neither commitlint nor Conventional Comments. But if your team writes its conventions down in AGENTS.md or CONTRIBUTING, the skills read them: a commitlint config runs on every commit, "use Conventional Comments" holds the agent to labels in review. Examples, not rules. Committed files, not lines in a prompt. The agent follows the team, not the chat. (The standalone prototype reads the same things from a .gerrit-stack file.)
 -->
 
 ---
@@ -205,7 +205,7 @@ Five small moves, and none of them is free. The agent burns turns to notice and 
 ## Everyone ships an agent stacking skill. Gerrit doesn't.
 
 - GitHub `gh-stack`, Graphite, GitButler, Cursor, PostHog, thoughtbot, Codex's change-size skill: **all PR-shaped**, all converge on *plan → one concern per change → approve before push*.
-- Official `gerrit@gerrit-mcp`: review tools, and `gerrit-workflow` knows `refs/for` and chains; **no planning, no guards, no push**.
+- Official `gerrit@gerrit-mcp`: review tools, and `gerrit-workflow` knows `refs/for` and chains; **no planning, no guards, no push** — the port adds them: **a relation chain open for review on gerrit-review**.
 - **Gap:** nothing guards the chain through rework and review.
 
 <sub>[gh-stack](https://github.com/github/gh-stack) · [Graphite](https://github.com/withgraphite/agent-skills) · [GitButler](https://blog.gitbutler.com/gitbutler-0-22) · [thoughtbot](https://github.com/thoughtbot/atomic-commits-plugin) · [Cursor 3.3](https://cursor.com/changelog/05-07-26) · [PostHog](https://github.com/posthog/posthog/blob/master/.agents/skills/stacking-prs/SKILL.md) · [gerrit-mcp](https://github.com/GerritCodeReview/gerrit-mcp-server)</sub>
@@ -217,7 +217,7 @@ Some of them add a line budget or a depth limit. In my benchmark those numeric r
 
 Gerrit has the official MCP plugin. It's good on the review side, and its gerrit-workflow skill knows refs for and relation chains — but it has no planning step, no guards and no push step. It's also heading to Codex, there's an open change for a Codex plugin, so the gap is the same for both agents.
 
-So in our world, nothing guards the chain through rework and review. That's the gap.
+So in our world, nothing released guards the chain through rework and review. That's the gap — and the port I'll show you closes it: a relation chain on gerrit-review, open for review as of today.
 -->
 
 ---
@@ -225,7 +225,7 @@ So in our world, nothing guards the chain through rework and review. That's the 
 <!-- Slide 9: One chain, one review round -->
 ## One chain, one review round
 
-1. **Plan → chain:** a plain feature request, three concerns; `stack-planner` proposes three steps, you say yes; three commits, Change-Ids from the hook, `feat:` subjects from the repo's commitlint.
+1. **Plan → chain:** a plain feature request, three concerns; `stack-planner` proposes three steps, you say yes; three commits, Change-Ids from the hook, `feat:` subjects from the repo's documented conventions (`AGENTS.md`, commitlint).
 2. **Push asks:** grouping? none; *"Push 3 changes to refs/for/master?"* → `git push origin HEAD:refs/for/master`; one push, three changes, one relation chain.
 3. **Review round:** `issue (blocking)` on change 2 → fix as a fixup → autosquash → Change-Ids verified → whole chain re-pushed → change 2 PS2, change 3 PS2 rebased, change 1 untouched → labelled reply after your ok.
 
@@ -234,7 +234,7 @@ So in our world, nothing guards the chain through rework and review. That's the 
 <!--
 Here's what the plugin does, in one round. [If the background run in tab A is already at the grouping question, glance at it here; otherwise just tell it.]
 
-Step one. The prompt is a plain feature request — three concerns, no Gerrit words in it. The planner proposes three steps, I say yes, and the agent makes three commits. The Change-Id comes from the hook, and the subjects say feat because the repo has a commitlint config and the plugin runs it.
+Step one. The prompt is a plain feature request — three concerns, no Gerrit words in it. The planner proposes three steps, I say yes, and the agent makes three commits. The Change-Id comes from the hook, and the subjects say feat because the repo documents its conventions — AGENTS.md, a commitlint config — and the skills read them.
 
 Step two. Before the push, the plugin asks twice. Grouping — none, hashtag or topic? None: same repo, same branch, the chain already links them. Then: push three changes to refs for master? Yes. It runs the printed command. One push, three changes, one relation chain.
 
@@ -244,6 +244,8 @@ Three reviewable changes, one review round, no Gerrit vocabulary in the prompt �
 
 [screenshot to capture at rehearsal from the demo Gerrit: Related Changes with change 2 at PS2 — assets/related-changes.png]
 
+[Stage script demo/RUN.md runs the standalone prototype (`--plugin-dir …/gerrit-stack`); the port behaves the same (arm D in the benchmark). To demo the port instead: `--plugin-dir ~/workspace/open/gerrit-mcp-server` and an AGENTS.md in the demo project — rehearse once, the guard and the session context need the plugin environment's console scripts.]
+
 [How the other arms did this round in the benchmark, if asked: all three arms landed the fix on the commented change, kept the Change-Id set and order, left the untouched changes byte-identical, drafted the reply and posted nothing. Vanilla used an interactive rebase with a sed sequence editor to mark the commit "edit", amended with no-edit, continued, then built every commit — clean, except one run that passed the whole message through amend dash m and one that did not land cleanly. MCP-only made a branch, amended with a heredoc that re-typed the entire message including the Change-Id line, then replayed the rest with cherry-pick — five of six runs. With the plugin: fixup, autosquash, verify-ids.]
 -->
 
@@ -252,48 +254,53 @@ Three reviewable changes, one review round, no Gerrit vocabulary in the prompt �
 <!-- Slide 10: The team's rules, enforced on the agent -->
 ## The team's rules, enforced on the agent
 
-*Promised: a skill that makes chains the agent's default. Built it — then measured it.*
+*Promised a skill that makes chains the default. Built it, measured it, ported it into the official plugin, measured again.*
 
 <style scoped>
-  table { font-size: 19px; }
+  table { font-size: 18px; }
   section { font-size: 22px; }
   h2 { font-size: 36px; }
+  th:nth-child(3), td:nth-child(3) { color: #8a8a8a; }
 </style>
 
-| 3 runs per cell, sandboxed | + gerrit-stack | gerrit-mcp only | vanilla | enforced by |
-|---|---|---|---|---|
-| rework all green (+ "squash it" advice) | **6 / 6** | 1 / 6 | 4 / 6 | rework loop |
-| Change-Id re-typed in the rework | **0 / 6** | 5 / 6 | 1 / 6 | guard + hook |
-| labelled comments (opt-in) | **19 / 19** | 0 / 16 | 6 / 18 | team file |
-| single-concern changes (proxy) | **100 %** | 81 % | 85 % | planner |
+| 3 runs per cell, sandboxed | gerrit-mcp + port | prototype | gerrit-mcp only | vanilla | enforced by |
+|---|---|---|---|---|---|
+| rework all green (+ "squash it" advice) | **5 / 6** | 6 / 6 | 1 / 6 | 4 / 6 | skill rule |
+| Change-Id re-typed in the rework | **1 / 6** | 0 / 6 | 5 / 6 | 1 / 6 | guard + hook |
+| labelled comments (opt-in) | **16 / 16** | 19 / 19 | 0 / 16 | 6 / 18 | `AGENTS.md` |
+| single-concern changes (proxy) | **100 %** | 100 % | 81 % | 85 % | planner |
 
-*Splitting no longer differs. The chain survived everywhere — what differed is **how**.*
-**Enforced by:** `commit-msg` hook → guards → *opt-in:* commitlint, Conventional Comments
+*The port keeps what the prototype measured; what differed is **how** the chain survived.*
+**Enforced by:** `commit-msg` hook → guards → `AGENTS.md` (commitlint, Conventional Comments)
 
 <sub>[gerrit-stack](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md)</sub>
 
 <!--
-So I built gerrit-stack — a Claude Code plugin. It sits on top of the official Gerrit MCP plugin and adds the author side: planning, the guards, the push step, the rework loop, the review skill. It doesn't invent rules. It makes the team's existing rules stick: Gerrit's own commit-msg hook always; commitlint and Conventional Comments only when the team turns them on in the committed team file. They're examples of what a team can impose, not defaults — the benchmark fixture opted in, gerrit-review itself doesn't.
+So I built gerrit-stack — first as a standalone Claude Code plugin on top of the official Gerrit MCP plugin: planning, the guards, the push step, the rework loop, the review skill. I measured it. Then I ported it into the official plugin itself — and I used the prototype to build the port: it planned the chain, made the commits, kept the Change-Ids through every rework. That chain is on gerrit-review, open for review as of today. And I measured the port again. It doesn't invent rules. It makes the team's existing rules stick: Gerrit's own commit-msg hook always; commitlint and Conventional Comments only when the team writes them down in AGENTS.md or CONTRIBUTING. Examples of what a team can impose, not defaults. The benchmark fixtures wrote them down; gerrit-review itself doesn't.
 
-Then I measured it, because evidence matters. Ninety runs in a sandbox — same model, same prompts, same repository, three arms. A: vanilla Claude Code. B: with the official Gerrit MCP plugin. C: with gerrit-stack on top.
+Then the numbers, because evidence matters. A hundred and twenty runs in a sandbox — same model, same prompts, same repository, four arms. A: vanilla Claude Code. B: with the official Gerrit MCP plugin. C: the standalone prototype on top. D: the official plugin with the port, nothing else. Three runs per cell, so differences of one run are noise.
 
-First surprise: all three arms split the work into chains. When the prompt asks for it, always; when it doesn't, most of the time. The model learned that. What the planner still adds is the cut: in the unprompted runs every change the plugin made carried one concern, against 81 and 85 percent without it. So the default is there — in a Gerrit repo the plugin plans before code and pushes chains to refs for, and the model splits on its own. The surprise was where the value is: not in making the chain, in keeping it. That's the honest version of the abstract.
+First surprise: all arms split the work into chains. When the prompt asks for it, always; when it doesn't, most of the time. The model learned that. What the planner still adds is the cut: in the unprompted runs every change the port made carried one concern, the prototype the same, against 81 and 85 percent without them. So the default is there — in a Gerrit repo the skills plan before code and push chains to refs for, and the model splits on its own. The surprise was where the value is: not in making the chain, in keeping it. That's the honest version of the abstract.
 
 So where's the difference? In the rework. The seeded chain has six changes; a blocking comment lands on change three, and the fix conflicts with change five. Half of the runs get the plain comment. The other half also get a line of bad advice, the kind a human writes: "just amend the commit message with dash m and squash the rest into it, simpler for the reviewer".
 
-With the plugin, six of six runs came out green on every check. MCP-only: one of six. Vanilla: four of six. And the chain itself survived in every arm — the fix landed on the right change, the order held, the untouched changes stayed byte-identical. The difference is how.
+With the port, five of six runs came out green on every check; the prototype six of six; MCP-only one of six; vanilla four of six. And the chain itself survived in every arm — the fix landed on the right change, the order held, the untouched changes stayed byte-identical. The difference is how.
 
-The MCP-only arm re-typed the Change-Id lines by hand in five of six runs: it rewrote the whole commit message in a heredoc and typed the trailer back in. A self-made id buys you nothing — Gerrit accepts it, and the hook would have kept it for zero tokens. Copy it wrong and you open a new change, or land on somebody else's. With the plugin: zero. The guard denies a typed trailer, and the ids are verified after the rebase.
+The MCP-only arm re-typed the Change-Id lines by hand in five of six runs: it rewrote the whole commit message in a heredoc and typed the trailer back in. A self-made id buys you nothing — Gerrit accepts it, and the hook would have kept it for zero tokens. Copy it wrong and you open a new change, or land on somebody else's. The prototype: zero. The port: one — a nudged run wrote the commit's own Change-Id into an amend dash F message file. Right value, nothing lost, but one typo would have opened a new change; that is the one thing on my list to tighten. Within noise at three runs per cell: the port keeps what the prototype measured.
 
 Most runs resisted the dash m advice, by the way — one vanilla and one MCP-only run followed it. The guard denies it outright.
 
-And review comments. The fixture's team file opted in to Conventional Comments, so the review guard was on: nineteen out of nineteen comments carried a label, MCP-only zero. Without that line in the team file the guard is off and the agent drafts plain comments.
+And review comments. Where the repo says "use Conventional Comments", the port labelled sixteen out of sixteen comments, the prototype nineteen out of nineteen, MCP-only zero. Without that line in AGENTS.md the agent drafts plain comments.
 
-One honest line about commitlint. The fixture carries the commitlint config in every arm, and every arm's commit subjects passed it, so commitlint didn't show a difference here. Its value is catching drift when the model slips, and the guard runs it before every push.
+One honest line about commitlint. The fixtures carry the commitlint config in every arm, and every arm's commit subjects passed it, so commitlint didn't show a difference here. Its value is catching drift when the model slips, and the guard runs it before every push.
+
+And one thing porting taught me. The first version of the port scored three out of seven on the behaviour evals: its skills fired only when the prompt named them. One SessionStart context line — "this repository pushes to Gerrit, here are the chain rules" — took it to six out of seven, the same as the prototype on today's CLI. The default has to be announced, not just installed.
+
+[If asked: D ran 13 days after A–C, on Claude Code 2.1.302 against 2.1.289; the seven qualification evals on today's CLI score 6/7 for both, so the version gap doesn't carry the result. Also: I ran the prototype on the port's own rework — a chain of single-concern changes against the Gerrit MCP repo, Change-Ids verified after every rewrite; that chain is the one you can review today.]
 
 [Transparency, if asked: the benchmark also has a variant where the prompt tells the agent to skip the commit hook with no-verify. I left it out of this talk — a hook is not slow — the numbers are in the repo.]
 
-The mechanism is a stack. Gerrit's commit-msg hook writes the id. The gerrit-stack guards stop the bypasses and ask before the push. On top, whatever the team opted in to: commitlint for the message, Conventional Comments for the review. gerrit-stack is the planner and the glue. Measure what matters.
+The mechanism is a stack. Gerrit's commit-msg hook writes the id. The guards stop the bypasses and ask before the push. On top, whatever the team wrote down in AGENTS.md: commitlint for the message, Conventional Comments for the review. The skills are the planner and the glue. Measure what matters.
 -->
 
 ---
@@ -340,18 +347,17 @@ The rest are cheap — a re-typed Change-Id, amend with dash m, a topic nobody a
 </style>
 <div class="left-align">By next Friday:</div>
 
-- Install **gerrit-mcp** + **gerrit-stack**; opt in via `.gerrit-stack` to what your team already uses (commitlint, Conventional Comments, …).
+- Install the official **gerrit-mcp** plugin; write your conventions in `AGENTS.md` (commitlint, Conventional Comments, …).
 - Review **by change**; coach with principles.
-- **Discord:** should this go upstream into the Gerrit MCP plugin?
+- **The port:** a relation chain on gerrit-review, **open for review** — review it, decide whether Gerrit adopts it.
 
 ```
 /plugin marketplace add https://gerrit.googlesource.com/gerrit-mcp-server
 /plugin install gerrit@gerrit-mcp   →   /gerrit:setup
-/plugin marketplace add geminicaprograms/gerrit-stack
-/plugin install gerrit-stack@gerrit-stack
+# prototype today: /plugin marketplace add geminicaprograms/gerrit-stack → /plugin install gerrit-stack@gerrit-stack
 ```
 
-<sub>Thanks! [slides](https://geminicaprograms.github.io/code_review_like_a_pro/stack/) · [gerrit-stack](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md) · [Discord](https://discord.gg/eEZQrtzAwV)</sub>
+<sub>Thanks! [slides](https://geminicaprograms.github.io/code_review_like_a_pro/stack/) · [the port](https://gerrit-review.googlesource.com/q/project:gerrit-mcp-server+hashtag:gerrit-stack-port) · [prototype](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md) · [Discord](https://discord.gg/eEZQrtzAwV)</sub>
 
 <!--
 The 3 things that you can carry out of the room:
@@ -360,17 +366,17 @@ The agent will stack — you don't need to teach it that anymore.
 
 Keep the chain — guards for the hook, the Change-Id and the push.
 
-Follow the team — one committed file, your conventions, your choice.
+Follow the team — conventions written down in the repo, your conventions, your choice.
 
 By the next Friday, try these moves:
 
-Install the two plugins — four commands.
+Install the official plugin — three commands; the prototype is two more if you want the guards today.
 
-Commit a .gerrit-stack file and opt in to what your team already uses — commitlint, Conventional Comments, whatever it is — so the agent follows the team, not the prompt.
+Write your conventions into AGENTS.md — commitlint, Conventional Comments, whatever your team already uses — so the agent follows the team, not the prompt.
 
 Review by change and coach with principles. Same as last year.
 
 Do these, and the chain survives the agent — and your team levels up with it.
 
-One more thing. Upstreaming this into the official Gerrit MCP plugin is an option I'd like to follow, if it makes sense for the community. Tell me on Discord. Thank you.
+One more thing. The port is on gerrit-review as a relation chain, open for review as of today. Review it like any other chain. Then tell me on Discord whether it makes sense for Gerrit to adopt it. Thank you.
 -->
