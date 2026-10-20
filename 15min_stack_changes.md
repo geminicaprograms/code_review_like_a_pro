@@ -31,9 +31,9 @@ style: |
 <!--
 Hi, I'm Jacek — hands-on software engineer and architect, code review daily practitioner, last and NOT least Gerrit maintainer.
 
-Last year we talked about how to do code review like a pro. Today we're talking about how to stack changes like a pro.
+Last year we talked about how to do code review like a pro. Today: how to stack changes like a pro.
 
-The answer is simple: the agent will stack — your job is to make sure the stack survives. In rework, in review, even with bad advice. If we get that right, the chain takes care of itself.
+The answer is simple. The agent will stack. Your job is to make sure the stack survives — in rework, in review, even with bad advice.
 
 [alt subtitles: a. Chains that survive — and conventions the agent keeps. · b. Stacked changes, team conventions, enforced on the agent.]
 -->
@@ -53,15 +53,9 @@ The answer is simple: the agent will stack — your job is to make sure the stac
 <sub>2025 talk: [How to do Code Review like a Pro](https://youtu.be/7pcb1p3hTtg)</sub>
 
 <!--
-Last year, three calls to action.
+Last year, three calls to action. Focus the diff. Coach with principles. Let tools police the nits.
 
-Focus the diff — one concern per change, small is reviewable.
-
-Coach with principles — Conventional Comments, label the severity, explain the why.
-
-Let tools police the nits — formatters, linters and CI do the boring part.
-
-One year later, one developer produces more code in a day than before in a week. The reviewers are the same people. Let's look at what that did to review.
+One year later, one developer produces in a day what used to take a week. The reviewers are the same people. Let's see what that did to review.
 -->
 
 ---
@@ -80,17 +74,17 @@ One year later, one developer produces more code in a day than before in a week.
 <sub>[Faros 2025](https://www.faros.ai/blog/ai-software-engineering) · [Faros 2026](https://www.faros.ai/blog/ai-acceleration-whiplash-takeaways) · [LinearB](https://linearb.io/blog/8-million-prs-engineering-productivity) · [Anthropic](https://claude.com/blog/code-review) · [GitHub](https://github.blog/engineering/turn-one-giant-ai-generated-pull-request-to-a-reviewable-stack/)</sub>
 
 <!--
-Here's the data. Research backs this up — four sources, same picture.
+Here's the data. Research backs this up.
 
-Faros looked at ten thousand developers in 2025. Teams with high AI adoption: pull requests got 154 percent bigger and review time went up 91 percent. In 2026 they looked again, twenty-two thousand developers this time — time in code review is up 200 percent.
+Faros, ten thousand developers: with heavy AI use, pull requests got 154 percent bigger, review time went up 91 percent. A year later, twenty-two thousand developers: time in code review is up 200 percent.
 
-LinearB looked at eight million pull requests. AI-assisted PRs are about two and a half times bigger — at the 75th percentile over 400 lines instead of 157 — and they wait more than 16 hours for a reviewer, where it used to be about 200 minutes.
+LinearB, eight million pull requests: AI-assisted PRs are two and a half times bigger, and they wait more than 16 hours for a reviewer. It used to be about 200 minutes.
 
-Anthropic, March this year: code output per engineer grew 200 percent. Their own words: "code review has become a bottleneck".
+Anthropic, March this year: output per engineer plus 200 percent. Their words: "code review has become a bottleneck".
 
-And GitHub engineering, in August: one agent pull request, 1,721 lines. Their fix? They cut it into a stack of four layers — remember that word, it comes back.
+And GitHub engineering, in August: one agent pull request, 1,721 lines. Their fix? A stack of four layers. Layers — remember that word.
 
-So writing code isn't the problem anymore. Measure what matters: review is the new bottleneck.
+Measure what matters: review is the new bottleneck.
 -->
 
 ---
@@ -123,13 +117,13 @@ So writing code isn't the problem anymore. Measure what matters: review is the n
 <sub>[Sapling](https://engineering.fb.com/2022/11/15/open-source/sapling-source-control-scalable/) · [Graphite](https://cursor.com/blog/graphite) · [GitHub preview](https://github.blog/changelog/2026-07-30-stacked-pull-requests-are-now-in-public-preview/) · [Gerrit's first commit, 2008-10-21](https://gerrit.googlesource.com/gerrit/+/38966837f9f0b331b3cafa3dccb8b41f8c42c671) · [Gerrit 3.8](https://www.gerritcodereview.com/3.8.html) · [Change-Id thread](https://lore.kernel.org/git/CAESOdVAspxUJKGAA58i0tvks4ZOfoGf1Aa5gPr0FXzdcywqUUw@mail.gmail.com/T/#u)</sub>
 
 <!--
-And the answer everybody arrives at is the same one: small changes, stacked.
+And everybody arrives at the same answer: small changes, stacked.
 
-Meta had stacked diffs in Phabricator for more than ten years, and in 2022 they open-sourced Sapling and ReviewStack. Graphite built a business on stacked pull requests — in December 2025 Cursor bought them. And in July this year GitHub shipped stacked pull requests as a public preview, with a CLI extension called gh-stack.
+Meta had stacked diffs in Phabricator for over ten years; in 2022 they open-sourced Sapling. Graphite built a business on stacked pull requests; in December Cursor bought them. In July, GitHub shipped stacked pull requests as a public preview.
 
-Welcome to 2008. Gerrit went live with the Android open-source release in October 2008, and it had this from day one: one concern per change, changes chained by parent and child. Since 3.8 you rebase a whole chain with one click or one REST call.
+Welcome to 2008. Gerrit went live with the Android open-source release in October 2008 — one concern per change, chained by parent, from day one. Since 3.8 you rebase a whole chain with one click.
 
-And the Change-Id footer isn't only ours anymore — in 2025 Gerrit, GitButler and Jujutsu agreed on the git mailing list to share it. The wheel is round. Let me show you what a good one looks like.
+And the Change-Id footer isn't only ours anymore: in 2025 Gerrit, GitButler and Jujutsu agreed to share it. The wheel is round. Let me show you what a good one looks like.
 -->
 
 ---
@@ -151,17 +145,19 @@ And the Change-Id footer isn't only ours anymore — in 2025 Gerrit, GitButler a
 <sub>[SmartBear](https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/): 200–400 lines per sitting · [arXiv 2607.20189](https://arxiv.org/abs/2607.20189): 1/3 of chains restructured, 2.6× slower to merge</sub>
 
 <!--
-So what does a good chain look like in practice? Four things. Plus one rule for the repo.
+What does a good chain look like? Four things, plus one rule for the repo.
 
-First, one concern per change. Each change builds on its own, the tests travel with the code they test, it's green in CI, and you can revert it alone.
+First, one concern per change. It builds alone, carries its tests, is green in CI, reverts alone.
 
-Second, size is a warning, not a target. SmartBear's old number still holds — 200 to 400 lines per sitting, above that reviewers miss defects. But a mechanical change, like a migration or a rename, stays one change. Don't cut it into pieces just to hit a number.
+Second, size is a warning, not a target. SmartBear's number: 200 to 400 lines per sitting. But a migration or a rename stays one change. Don't cut it to hit a number.
 
-Third, chain length follows the concerns. Three concerns, three changes; eight concerns, eight changes. Any length is fine as long as the bottom keeps landing — merge the lowest change as soon as it's approved. Concern-sized changes with their own tests are what make that safe.
+Third, chain length follows the concerns. Any length is fine as long as the bottom keeps landing.
 
-Fourth, the chain outlives the rework. You know what the Change-Id is. What's new is the author: an agent amends and rebases a lot, and every one of those steps has to keep the id. And here's the honest number — a study of 30,000 Gerrit chains this summer found that chain changes take 2.6 times longer to merge than single changes of the same size, and one third get restructured during review. Restacking is the price of a chain. Pay it with tooling, not with authors: rebase chain, fixup and autosquash, Change-Ids verified, the chain re-pushed as one. The rework scenario on slide 10 measures exactly this.
+Fourth, the chain outlives the rework. An agent amends and rebases a lot; every step has to keep the Change-Id. The honest number: in 30,000 Gerrit chains, chain changes merged 2.6 times slower, and a third got restructured in review. Restacking is the price of a chain. Pay it with tooling, not with authors.
 
-And the rule for the repo: conventions travel with it. The port ships no convention of its own and nothing is on by default — the Gerrit project itself, on gerrit-review, enforces neither commitlint nor Conventional Comments. But if your team writes its conventions down in AGENTS.md or CONTRIBUTING, the skills read them: a commitlint config runs on every commit, "use Conventional Comments" holds the agent to labels in review. Examples, not rules. Committed files, not lines in a prompt. The agent follows the team, not the chat. (The standalone prototype reads the same things from a .gerrit-stack file.)
+The rule for the repo: conventions travel with it, written down in AGENTS.md. Commitlint, Conventional Comments — examples, not rules, nothing on by default. The agent follows the team, not the chat.
+
+That's the target. Here is how an agent misses it.
 -->
 
 ---
@@ -180,23 +176,21 @@ And the rule for the repo: conventions travel with it. The port ships no convent
 ③ `push … refs/heads/*` → no review &nbsp;·&nbsp; ④ `%topic=` unasked → atomic submit by surprise
 
 <!--
-You know this picture: three commits, one push, three changes in a relation chain. Amend the middle one, push again, and you get patch set two on changes two and three — same Change-Ids.
+You know this picture. Three commits, one push, three changes in a chain. Amend the middle one, push again: new patch sets, same Change-Ids.
 
-What's new is the author. An agent walks through this picture many times a day, and it can break it in five places.
+What's new is the author. An agent walks through this many times a day and can break it in five places.
 
-Number zero, and the biggest one, is the cut itself: layers instead of concerns, one concern cut in half to hit a line budget, two concerns merged to keep the chain short. No guard catches that — only the plan does, before any code is written. More on this at the end.
+Zero, the biggest: the cut. Layers instead of concerns, halves, merged concerns. No guard catches that — only the plan does. More at the end.
 
-The next two I saw in the benchmark; the last two the guards cover anyway.
+First, a hand-made Change-Id. Copy it right, nothing happens. Copy it wrong, Gerrit opens a new change, or lands on somebody else's.
 
-First, a hand-made Change-Id. The agent rewrites a commit message and types the trailer back in, or computes one. Copy it right and nothing happens — tokens burned. Copy it wrong and Gerrit opens a new change, or lands your patch set on somebody else's.
+Second, amend with dash m. The trailer is gone. New change, old one orphaned with the review on it.
 
-Second, amend with dash m. The whole message is replaced, the trailer is gone, the hook stamps a fresh id — new change, and the old one is orphaned with the review on it.
+Third, push to refs heads: the review is skipped.
 
-Third, push to refs heads instead of refs for. On most servers the ACL denies it; where you're allowed, the review is simply skipped. The guard says no either way, so it doesn't depend on the ACL.
+Fourth, a topic on every chain: with submitWholeTopic, an atomic submit nobody asked for.
 
-Fourth, a topic on every chain. The official gerrit-workflow skill shows topic equals my-feature with the comment "groups related changes" — true, and with submitWholeTopic on that grouping becomes an atomic submit the author never asked for. I didn't see this one in the benchmark; the guard asks before it happens.
-
-Five small moves, and none of them is free. The agent burns turns to notice and undo them, and a human still cleans up after it — abandon the orphaned change, re-attach the review, pull the topic apart. Keep them in mind for the numbers in a minute.
+The first two I saw in the benchmark. None is free: the agent burns turns, a human cleans up. Keep them in mind — the numbers come right after the demo.
 -->
 
 ---
@@ -211,13 +205,13 @@ Five small moves, and none of them is free. The agent burns turns to notice and 
 <sub>[gh-stack](https://github.com/github/gh-stack) · [Graphite](https://github.com/withgraphite/agent-skills) · [GitButler](https://blog.gitbutler.com/gitbutler-0-22) · [thoughtbot](https://github.com/thoughtbot/atomic-commits-plugin) · [Cursor 3.3](https://cursor.com/changelog/05-07-26) · [PostHog](https://github.com/posthog/posthog/blob/master/.agents/skills/stacking-prs/SKILL.md) · [gerrit-mcp](https://github.com/GerritCodeReview/gerrit-mcp-server)</sub>
 
 <!--
-Everybody else already ships a stacking skill for coding agents: GitHub's own gh-stack, Graphite, GitButler, Cursor, PostHog, thoughtbot — and Codex has a change-size skill. They're all PR-shaped, and they all agree on three things: plan before code, one concern per change, ask a human before you push. Note the word they actually use for a step — a layer. Hold that thought for the anti-patterns.
+Everybody else already ships a stacking skill for coding agents: GitHub's gh-stack, Graphite, GitButler, Cursor, PostHog, thoughtbot, Codex. All PR-shaped. All agree on three things: plan before code, one concern per change, ask a human before you push. And the word they use for a step is "layer". Hold that thought.
 
-Some of them add a line budget or a depth limit. In my benchmark those numeric rules did harm: the agent merged two concerns to stay under a depth limit, or split one in half to stay under a line count. So I dropped them. The concern is the unit.
+Some add a line budget or a depth limit. In my benchmark those rules did harm: the agent merged concerns to stay under a depth limit, or split one in half for a line count. I dropped them. The concern is the unit.
 
-Gerrit has the official MCP plugin. It's good on the review side, and its gerrit-workflow skill knows refs for and relation chains — but it has no planning step, no guards and no push step. It's also heading to Codex, there's an open change for a Codex plugin, so the gap is the same for both agents.
+Gerrit has the official MCP plugin. Good on the review side; its gerrit-workflow skill knows refs for and chains. But no planning, no guards, no push step. That's the gap.
 
-So in our world, nothing released guards the chain through rework and review. That's the gap — and the port I'll show you closes it: a relation chain on gerrit-review, open for review as of today.
+So I built the missing half: gerrit-stack — first a standalone plugin, then ported into the official one, open for review on gerrit-review as of today. Here it is, one round.
 -->
 
 ---
@@ -232,27 +226,57 @@ So in our world, nothing released guards the chain through rework and review. Th
 <sub>Stage script: [`demo/RUN.md`](https://github.com/geminicaprograms/gerrit-stack/blob/main/demo/RUN.md)</sub>
 
 <!--
-Here's what the plugin does, in one round. [If the background run in tab A is already at the grouping question, glance at it here; otherwise just tell it.]
+[SETUP — T-30, from ~/workspace/open/gerrit-stack (talk-day runbook: docs/demo-runbook.md in this repo; plugin is installed, so start plain `claude`, no --plugin-dir):
+  make demo-up demo-seed demo-warm
+  tab A:  cd demo/work/demo-plugin && DISABLE_AUTOUPDATER=1 claude   → /mcp shows gerrit green, first line "[gerrit-stack] This repository pushes to Gerrit…"
+  tab B:  shell at the gerrit-stack root (reviewer script)
+  browser tab 1: http://localhost:8080/q/status:open+project:demo-plugin (empty, logged in as admin); tab 2 free
+  dry-run once and answer "yes, don't ask again" to the git / quick-check permission prompts]
 
-Step one. The prompt is a plain feature request — three concerns, no Gerrit words in it. The planner proposes three steps, I say yes, and the agent makes three commits. The Change-Id comes from the hook, and the subjects say feat because the repo documents its conventions — AGENTS.md, a commitlint config — and the skills read them.
+[PRE-WARMED OPTION — at the end of slide 2 paste the prompt in tab A and answer "yes" to the plan; the commits run while you talk; arrive here at the grouping question. Otherwise do it all now.]
 
-Step two. Before the push, the plugin asks twice. Grouping — none, hashtag or topic? None: same repo, same branch, the chain already links them. Then: push three changes to refs for master? Yes. It runs the printed command. One push, three changes, one relation chain.
+[STEP 1 — TYPE in tab A: paste demo/feature-request.md:
+  "Feature request: greeting for demo-plugin. We want demo-plugin to greet a project the same way it already answers ping.
+   1. REST: GET /projects/{name}/demo-plugin~greeting returns {"greeting":"<prefix>, <project>!"}. The prefix comes from [plugin "demo-plugin"] greetingPrefix in gerrit.config, default Hello.
+   2. SSH: demo-plugin greet <project> prints the same greeting.
+   3. A project can override the prefix in its own project.config ([plugin "demo-plugin"] greetingPrefix); the server value stays the default.
+   When it is done, push the work to Gerrit for review."
+  (no "split" instruction, no verify command — both arms planned 3 steps unprompted; if a run proposes 2, answer: three steps please: REST, SSH, project override)
+  WAIT for the 3-step plan (Step 1 — feat: greetingPrefix… / Step 2 — REST… / Step 3 — SSH…) → TYPE: yes
+  WAIT for three commits (each: edit → quick-check → git add → git commit → "one Change-Id ✓, size")]
 
-Step three. A reviewer posts a blocking comment on change two. I say: check review comments and address them. The agent reads the thread, fixes the code, folds the fix into change two with a fixup and an autosquash rebase, verifies that all three Change-Ids are unchanged, and pushes the whole chain again. Change two gets patch set two; change three gets patch set two as well, rebased, no diff of its own; change one is untouched. Then it drafts the reply and asks me before it posts.
+Step one. A plain feature request: three concerns, no Gerrit words. The planner proposes three steps, I say yes, the agent makes three commits — Change-Ids from the hook, subjects as the repo documents them.
 
-Three reviewable changes, one review round, no Gerrit vocabulary in the prompt — that's a relation chain in action. Now the numbers.
+[STEP 2 — WAIT for: "All 3 changes target demo-plugin/master. Group them? none / hashtag / topic" → TYPE: none
+  WAIT for: "Push 3 changes to refs/for/master on origin? (y/n/wip)" → TYPE: yes
+  the agent runs the printed `git push origin HEAD:refs/for/master`; Gerrit prints three change URLs
+  BROWSER tab 1: reload → 3 open changes; open change 2 in tab 2 → Related Changes shows one above, one below; note its number <n2>]
 
-[screenshot to capture at rehearsal from the demo Gerrit: Related Changes with change 2 at PS2 — assets/related-changes.png]
+Step two. It asks twice: grouping? None — the chain already links them. Push three changes to refs for master? Yes. One push, one relation chain.
 
-[Stage script demo/RUN.md runs the standalone prototype (`--plugin-dir …/gerrit-stack`); the port behaves the same (arm D in the benchmark). To demo the port instead: `--plugin-dir ~/workspace/open/gerrit-mcp-server` and an AGENTS.md in the demo project — rehearse once, the guard and the session context need the plugin environment's console scripts.]
+[STEP 3 — tab B: bash demo/reviewer-comment.sh <n2>   → prints the change URL
+  BROWSER tab 2: reload → Code-Review −1 from Rena Reviewer, unresolved thread "issue (blocking): an empty or unknown project name must produce a clear error here…"
+  TYPE in tab A: Check review comments on the chain and address them
+  WAIT: threads table (one row, change <n2>) → fix → git commit --fixup → rebase --autosquash → "verify-ids: ok"
+  WAIT for: "Push 3 changes to refs/for/master on origin?" → TYPE: yes
+  WAIT for: "Ready to post 1 reply … Post? (y/n)" → TYPE: yes
+  BROWSER: change 2 → Patch set 2, thread resolved; change 3 → Patch set 2 (rebased, no diff of its own); change 1 untouched]
 
-[How the other arms did this round in the benchmark, if asked: all three arms landed the fix on the commented change, kept the Change-Id set and order, left the untouched changes byte-identical, drafted the reply and posted nothing. Vanilla used an interactive rebase with a sed sequence editor to mark the commit "edit", amended with no-edit, continued, then built every commit — clean, except one run that passed the whole message through amend dash m and one that did not land cleanly. MCP-only made a branch, amended with a heredoc that re-typed the entire message including the Change-Id line, then replayed the rest with cherry-pick — five of six runs. With the plugin: fixup, autosquash, verify-ids.]
+Step three. A blocking comment on change two. "Check review comments and address them." The agent fixes the code, folds it into change two with a fixup and autosquash, verifies all three Change-Ids, re-pushes the whole chain. Change two: patch set two. Change three: rebased. Change one: untouched. Then it drafts the reply and asks me before posting.
+
+That's a relation chain in action — and this same workflow produced the port chain you can review today. Did it hold beyond a demo? I measured it.
+
+[FALLBACKS (RUN.md table): any step silent > 60 s → demo/recording/full-7min.mp4 from the matching chapter; /mcp not green → run to the push, then short-3min.mp4 for the review round; verify > 30 s → git config gerrit-stack.verify-cmd 'bash tools/quick-check.sh'; Gerrit down → docker compose restart (~40 s). Reset between runs: bash demo/reset.sh && make demo-up demo-seed demo-warm.]
+
+[PORT INSTEAD OF PROTOTYPE: tab A with --plugin-dir ~/workspace/open/gerrit-mcp-server and an AGENTS.md in demo/work/demo-plugin; behaves the same (arm D); rehearse once — the guard and the session context need the plugin environment's console scripts.]
+
+[If asked how the other arms reworked: all landed the fix on the right change and kept the Change-Id set; vanilla used rebase -i "edit" + amend --no-edit; MCP-only rewrote the message in a heredoc and re-typed the Change-Id in five of six runs; the plugin: fixup, autosquash, verify-ids.]
 -->
 
 ---
 
 <!-- Slide 10: The team's rules, enforced on the agent -->
-## The team's rules, enforced on the agent
+## Does the chain survive? 120 runs, four arms
 
 *Promised a skill that makes chains the default. Built it, measured it, ported it into the official plugin, measured again.*
 
@@ -276,31 +300,21 @@ Three reviewable changes, one review round, no Gerrit vocabulary in the prompt �
 <sub>[gerrit-stack](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md)</sub>
 
 <!--
-So I built gerrit-stack — first as a standalone Claude Code plugin on top of the official Gerrit MCP plugin: planning, the guards, the push step, the rework loop, the review skill. I measured it. Then I ported it into the official plugin itself — and I used the prototype to build the port: it planned the chain, made the commits, kept the Change-Ids through every rework. That chain is on gerrit-review, open for review as of today. And I measured the port again. It doesn't invent rules. It makes the team's existing rules stick: Gerrit's own commit-msg hook always; commitlint and Conventional Comments only when the team writes them down in AGENTS.md or CONTRIBUTING. Examples of what a team can impose, not defaults. The benchmark fixtures wrote them down; gerrit-review itself doesn't.
+Evidence matters. A hundred and twenty sandboxed runs, same model, same prompts, four arms: vanilla, the official plugin, the prototype on top, the official plugin with the port. Three runs per cell — one run of difference is noise.
 
-Then the numbers, because evidence matters. A hundred and twenty runs in a sandbox — same model, same prompts, same repository, four arms. A: vanilla Claude Code. B: with the official Gerrit MCP plugin. C: the standalone prototype on top. D: the official plugin with the port, nothing else. Three runs per cell, so differences of one run are noise.
+First surprise: every arm splits the work into chains. The model learned that. What the planner still adds is the cut — the last row, more on it in a minute. The default is there; the value is in keeping the chain. That's the honest version of the abstract.
 
-First surprise: all arms split the work into chains. When the prompt asks for it, always; when it doesn't, most of the time. The model learned that. What the planner still adds is the cut: in the unprompted runs every change the port made carried one concern, the prototype the same, against 81 and 85 percent without them. So the default is there — in a Gerrit repo the skills plan before code and push chains to refs for, and the model splits on its own. The surprise was where the value is: not in making the chain, in keeping it. That's the honest version of the abstract.
+The difference is the rework. Six changes, a blocking comment on change three, the fix conflicts with change five, and half the runs get bad advice: "amend with dash m and squash the rest".
 
-So where's the difference? In the rework. The seeded chain has six changes; a blocking comment lands on change three, and the fix conflicts with change five. Half of the runs get the plain comment. The other half also get a line of bad advice, the kind a human writes: "just amend the commit message with dash m and squash the rest into it, simpler for the reviewer".
+The port: five of six runs green on every check. The prototype: six of six. MCP-only: one. Vanilla: four. The chain survived in every arm — the difference is how. MCP-only re-typed the Change-Id by hand in five of six runs. Right value, zero benefit, one typo opens a new change. The prototype: zero. The port: one — the commit's own id, typed into an amend file; nothing lost, and the one thing on my list to tighten. Within noise, the port keeps what the prototype measured.
 
-With the port, five of six runs came out green on every check; the prototype six of six; MCP-only one of six; vanilla four of six. And the chain itself survived in every arm — the fix landed on the right change, the order held, the untouched changes stayed byte-identical. The difference is how.
+Review comments, where the repo says "use Conventional Comments": the port sixteen of sixteen, the prototype nineteen of nineteen, MCP-only zero.
 
-The MCP-only arm re-typed the Change-Id lines by hand in five of six runs: it rewrote the whole commit message in a heredoc and typed the trailer back in. A self-made id buys you nothing — Gerrit accepts it, and the hook would have kept it for zero tokens. Copy it wrong and you open a new change, or land on somebody else's. The prototype: zero. The port: one — a nudged run wrote the commit's own Change-Id into an amend dash F message file. Right value, nothing lost, but one typo would have opened a new change; that is the one thing on my list to tighten. Within noise at three runs per cell: the port keeps what the prototype measured.
+One thing porting taught me. The first port scored three of seven on the behaviour evals: its skills fired only when the prompt named them. One SessionStart line — "this repo pushes to Gerrit, here are the chain rules" — took it to six of seven. The default has to be announced, not just installed. Measure what matters.
 
-Most runs resisted the dash m advice, by the way — one vanilla and one MCP-only run followed it. The guard denies it outright.
+[If asked: D ran 13 days after A–C, Claude Code 2.1.302 vs 2.1.289; the seven qualification evals score 6/7 for both on today's CLI. Commitlint showed no difference: every arm's subjects passed it; its value is catching drift.]
 
-And review comments. Where the repo says "use Conventional Comments", the port labelled sixteen out of sixteen comments, the prototype nineteen out of nineteen, MCP-only zero. Without that line in AGENTS.md the agent drafts plain comments.
-
-One honest line about commitlint. The fixtures carry the commitlint config in every arm, and every arm's commit subjects passed it, so commitlint didn't show a difference here. Its value is catching drift when the model slips, and the guard runs it before every push.
-
-And one thing porting taught me. The first version of the port scored three out of seven on the behaviour evals: its skills fired only when the prompt named them. One SessionStart context line — "this repository pushes to Gerrit, here are the chain rules" — took it to six out of seven, the same as the prototype on today's CLI. The default has to be announced, not just installed.
-
-[If asked: D ran 13 days after A–C, on Claude Code 2.1.302 against 2.1.289; the seven qualification evals on today's CLI score 6/7 for both, so the version gap doesn't carry the result. Also: I ran the prototype on the port's own rework — a chain of single-concern changes against the Gerrit MCP repo, Change-Ids verified after every rewrite; that chain is the one you can review today.]
-
-[Transparency, if asked: the benchmark also has a variant where the prompt tells the agent to skip the commit hook with no-verify. I left it out of this talk — a hook is not slow — the numbers are in the repo.]
-
-The mechanism is a stack. Gerrit's commit-msg hook writes the id. The guards stop the bypasses and ask before the push. On top, whatever the team wrote down in AGENTS.md: commitlint for the message, Conventional Comments for the review. The skills are the planner and the glue. Measure what matters.
+[If asked: the benchmark also has a "skip the hook with no-verify" variant; left out — a hook is not slow — numbers in the repo.]
 -->
 
 ---
@@ -317,21 +331,15 @@ The mechanism is a stack. Gerrit's commit-msg hook writes the id. The guards sto
 <sub>Chain on concerns — not on layers, not on lines · size is a warning, never a cut · the cheap breaks (id, `-m`, topic, branch): a guard denies or asks</sub>
 
 <!--
-The unit is the concern. A concern is what a reviewer can judge in one sitting and what you can revert alone. It cuts across layers — so a layer is never a change.
+Back to break number zero — the one no guard catches. The unit is the concern: what a reviewer can judge in one sitting and what you can revert alone. It cuts across layers, so a layer is never a change.
 
-Split by layer: config in one change, the service in the next, the REST view in the third, the SSH command last. Every change is "part one of four", nothing works alone, and the reviewer of change two has to read change four. Wrong mindset.
+Split by layer: config, service, REST, SSH. Every change is "part one of four", nothing works alone. Wrong mindset — and it's what the PR-shaped skills teach. GitHub's own showcase cut that 1,721-line PR into data, API, grounding, UI; not one of them is a feature. Layers build a stack of PRs; they're the wrong unit for a chain. A concern is a vertical slice: code, caller, test. Copy the stacking, not the cut.
 
-And it's not a corner case — it's what the PR-shaped skills teach. gh-stack: one PR per layer. GitHub's own showcase cut that 1,721-line pull request into data, API, grounding, UI — four layers, and not one of them is a feature on its own. Graphite and PostHog talk in layers too. Layers are how a stack of pull requests is built; they're the wrong unit for a chain. A concern is a vertical slice — the code, its caller, its test — that builds alone and makes sense alone. Copy the stacking, not the cut.
+Split by size: size is a warning, the slice stays whole. Merge concerns, to keep the chain short or because someone said "squash it": one change per concern, a fix goes in as a fixup.
 
-Split by size: the agent cuts one concern in half to stay under a line budget, and now two changes share one thought. Size is a warning, nothing more. The slice stays whole.
+The number: in the unprompted runs every change the plugin made carried one concern; without it, 81 and 85 percent.
 
-Merge concerns: to keep the chain short, or because a reviewer said "squash it, simpler for the reviewer". Simpler for one reviewer, worse for the chain. One change per concern — a fix goes in as a fixup, and autosquash folds it into the right change.
-
-Here's the number. In the unprompted runs every change the plugin made carried one concern; MCP-only 81 percent, vanilla 85. The numeric rules — a depth cap and a line budget — caused both the merging and the halving, so I dropped them.
-
-A mechanical migration mixed with a behaviour change is two concerns: mechanical first, behaviour on top.
-
-The rest are cheap — a re-typed Change-Id, amend with dash m, a topic nobody asked for, a push to a branch. A guard denies or asks. Chain on concerns, not on layers, not on lines.
+Mechanical first, behaviour on top. The rest a guard denies or asks. Chain on concerns, not on layers, not on lines.
 -->
 
 ---
@@ -360,23 +368,15 @@ The rest are cheap — a re-typed Change-Id, amend with dash m, a topic nobody a
 <sub>Thanks! [slides](https://geminicaprograms.github.io/code_review_like_a_pro/stack/) · [the port](https://gerrit-review.googlesource.com/q/project:gerrit-mcp-server+hashtag:gerrit-stack-port) · [prototype](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md) · [Discord](https://discord.gg/eEZQrtzAwV)</sub>
 
 <!--
-The 3 things that you can carry out of the room:
+Three things to carry out of the room.
 
-The agent will stack — you don't need to teach it that anymore.
+The agent will stack — you don't need to teach it that.
 
 Keep the chain — guards for the hook, the Change-Id and the push.
 
-Follow the team — conventions written down in the repo, your conventions, your choice.
+Follow the team — conventions written down in the repo.
 
-By the next Friday, try these moves:
+By next Friday: install the official plugin, three commands; the prototype is two more if you want the guards today. Write your conventions into AGENTS.md. Review by change and coach with principles — same as last year.
 
-Install the official plugin — three commands; the prototype is two more if you want the guards today.
-
-Write your conventions into AGENTS.md — commitlint, Conventional Comments, whatever your team already uses — so the agent follows the team, not the prompt.
-
-Review by change and coach with principles. Same as last year.
-
-Do these, and the chain survives the agent — and your team levels up with it.
-
-One more thing. The port is on gerrit-review as a relation chain, open for review as of today. Review it like any other chain. Then tell me on Discord whether it makes sense for Gerrit to adopt it. Thank you.
+One more thing. The port is on gerrit-review, a relation chain open for review as of today. Review it like any other chain, and tell me on Discord whether Gerrit should adopt it. Thank you.
 -->
