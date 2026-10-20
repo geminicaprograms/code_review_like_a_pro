@@ -6,12 +6,24 @@ version. Paths are relative to `~/workspace/open/gerrit-stack` unless absolute.
 
 ## 0. Which plugin runs the demo
 
-The `gerrit-stack` plugin is **installed** from the marketplace (user scope), so
-start `claude` **without** `--plugin-dir` — with both, every skill registers
-twice and every guard asks twice. Dev mode only if you first run
-`claude plugin disable gerrit-stack@gerrit-stack`.
+Since 2026-10-19 the installed `gerrit@gerrit-mcp` **is the port** (marketplace
+`gerrit-mcp` → `/Users/jcentkowski/workspace/open/gerrit-mcp-server`, version
+`717b2f36bb97`, six skills, two hooks) and `gerrit-stack` is not installed. The
+demo therefore runs on the port with plain `claude` — no `--plugin-dir`. The
+seed writes `AGENTS.md` into the demo project, which is where the port reads the
+team conventions (`.gerrit-stack` is only read by the prototype).
 
-Port instead of the prototype (what the slides lead with): see section 7.
+Check before the dry run:
+
+```
+claude plugin details gerrit@gerrit-mcp | grep -A1 'Skills'     # must list stack-planner and gerrit-review
+ls ~/.claude/plugins/data/gerrit-gerrit-mcp/.venv/bin | grep gerrit-git-guard
+```
+
+After new commits in the checkout: `claude plugin uninstall gerrit@gerrit-mcp && claude plugin install gerrit@gerrit-mcp`
+(the port's manifest has no version, so `update` sees nothing to do).
+
+Prototype instead of the port: section 7.
 
 ## 1. T-30 — bring the stage up (≈ 3 min, once)
 
@@ -28,7 +40,7 @@ Then:
 
 - **Browser tab 1:** `http://localhost:8080/q/status:open+project:demo-plugin` — empty list. If you look logged out: `http://localhost:8080/login/?user_name=admin`. **Tab 2** stays free for change 2.
 - **Terminal tab A** (the demo): `cd ~/workspace/open/gerrit-stack/demo/work/demo-plugin && DISABLE_AUTOUPDATER=1 claude`
-  - first line must be `[gerrit-stack] This repository pushes to Gerrit …` (no line = repo not detected, stop here)
+  - first line must be *"This repository is reviewed on Gerrit. For any change that touches more than one file, invoke the gerrit-workflow skill …"* (no line = repo not detected, stop here)
   - `/mcp` → `gerrit` green
 - **Terminal tab B** (the reviewer): `cd ~/workspace/open/gerrit-stack`, keep `cat demo/feature-request.md` and `bash demo/reviewer-comment.sh` in the history.
 - Font 18+, `Ctrl-L` in both tabs, notifications off, Finder open on `demo/recording/`.
@@ -72,8 +84,8 @@ planned this prompt as the same three steps in headless tests (2026-10-18):
 prefix`. If a run proposes two, answer: `three steps please: REST, SSH, project
 override` — the plan is the contract, the author sets the granularity.
 
-**You see:** the `gerrit-stack` skill fires (no `/command` needed — the repo is
-Gerrit), runs the preflight, then `stack-planner` prints a 3-step plan
+**You see:** the `gerrit-workflow` skill fires (no `/command` needed — the
+session context names it), then `stack-planner` prints a 3-step plan
 (`Step 1 — feat: serve project greeting over REST`, `Step 2 — feat: add greet SSH command`, `Step 3 — feat: let project.config override greeting prefix`)
 with files, estimated lines, verify command, and ends with
 *"Approve this 3-step plan? Reply yes …"*.
@@ -137,14 +149,14 @@ Comments — the label says what kind of feedback this is."*
 Check review comments on the chain and address them
 ```
 
-(Equivalent explicit call: `/gerrit-stack:gerrit-review` reads the threads and
-hands the fix to `gerrit-stack` Phase 5. The sentence triggers the same skills.)
+(Equivalent explicit call: `/gerrit:gerrit-review` reads the threads and hands
+the fix to `gerrit-workflow`'s rework recipe. The sentence triggers the same skills.)
 
 **You see, in order:**
 1. the threads table `change | file:line | author | unresolved | summary` — one row, change `<n2>`;
 2. the fix in the code, `git commit --fixup=<sha of change 2>`;
 3. `git -c sequence.editor=true rebase -i --autosquash <base>`;
-4. `chain-status.sh --verify-ids` → `ok` (three Change-Ids unchanged);
+4. the Change-Id list before and after the rebase, unchanged (the port's recipe; the prototype prints `verify-ids: ok`);
 5. *"Push 3 changes to refs/for/master on origin? (y/n/wip)"* → **Type:** `yes`
 6. the push; then the reply batch: *"Ready to post 1 reply … Done. …
    Post? (y/n/edit N)"* → **Type:** `yes`
@@ -192,30 +204,26 @@ bash demo/reset.sh && make demo-up demo-seed demo-warm
 and the permission answers (`demo/work/demo-plugin/.claude/settings.local.json`),
 so the dry-run step in section 1 is needed again. `seed.sh` is idempotent.
 
-## 7. Running the port instead of the prototype
+## 7. Running the prototype instead of the port
 
-What the slides lead with (arm D). Same round, different plugin:
+Only if the port misbehaves in the dry run. Same round, same prompts and answers:
 
-1. `claude plugin disable gerrit-stack@gerrit-stack` (avoid two sets of guards).
-2. In `demo/work/demo-plugin` add an `AGENTS.md` stating the conventions the
-   skills read (the benchmark fixture's wording: commitlint config in the repo,
-   "use Conventional Comments in review"), commit it on `master` and push it
-   to `refs/heads/master` as admin, or let the seed carry it.
-3. Tab A: `cd demo/work/demo-plugin && DISABLE_AUTOUPDATER=1 claude --plugin-dir ~/workspace/open/gerrit-mcp-server`
-   — the checkout must be at the pushed chain's head; the guard and the
-   SessionStart context need the plugin environment's console scripts
-   (benchmark "Open after arm D" #6): confirm the `[gerrit…]` session line and
-   one denied `--amend -m` **in the dry run**, not on stage.
-4. Prompts and answers are identical to section 3; the review step is triggered
-   by the same sentence (the ported `gerrit-review` skill).
-5. Rehearse once before deciding; if it misbehaves, the prototype path above is
-   measured and known.
+```
+claude plugin disable gerrit@gerrit-mcp
+claude plugin marketplace add geminicaprograms/gerrit-stack
+claude plugin install gerrit-stack@gerrit-stack      # pulls the released gerrit@gerrit-mcp as its dependency
+```
+
+Tab A then opens with `[gerrit-stack] This repository pushes to Gerrit …`; the
+prototype reads `.gerrit-stack` (also seeded) and prints `verify-ids: ok` after
+the rebase. To go back: `claude plugin uninstall gerrit-stack@gerrit-stack &&
+claude plugin enable gerrit@gerrit-mcp`.
 
 ## 8. Day-of checklist
 
 - [ ] `claude --version` noted; `DISABLE_AUTOUPDATER=1` in tab A
 - [ ] `make demo-up demo-seed demo-warm` green; `quick-check.sh` < 1 s
-- [ ] tab A: `[gerrit-stack] …` line, `/mcp` green; dry run done; reset done
+- [ ] tab A: "This repository is reviewed on Gerrit…" line, `/mcp` green; one `--amend -m` denied in the dry run; reset done
 - [ ] tab B: `demo/feature-request.md` and `reviewer-comment.sh` in history
 - [ ] browser tab 1 at the project query, logged in as admin
 - [ ] recordings present and playable; Wi-Fi off except hotspot (Claude API)
