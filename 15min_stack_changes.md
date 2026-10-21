@@ -33,7 +33,7 @@ Hi, I'm Jacek - hands-on software engineer and architect, code review daily prac
 
 Last year we talked about how to do code review like a pro. Today: how to stack changes like a pro.
 
-The answer is again simple: the agent will stack. Your job is to make sure the stack survives - in rework, in review, even with bad advice - and, above all, that it stays reviewable.
+The answer is again simple: the agent will stack. Your job is to hand the agent the rules and the guards, so the stack survives rework and review without you restacking by hand - and, above all, so that it stays reviewable.
 
 [alt subtitles: a. Chains that survive - and conventions the agent keeps. · b. Stacked changes, team conventions, enforced on the agent.]
 -->
@@ -193,7 +193,7 @@ I saw the first two in the benchmark. None of them is free: the agent burns turn
 
 - GitHub `gh-stack`, Graphite, GitButler, Cursor, PostHog, thoughtbot, Codex's change-size skill: **all PR-shaped**, all converge on *plan → one concern per change → approve before push*.
 - Official `gerrit@gerrit-mcp`: review tools, and `gerrit-workflow` knows `refs/for` and chains; **no planning, no guards, no push** - nothing guards the chain through rework and review. **That's the gap.**
-- **The port adds them** - a relation chain open for review on gerrit-review.
+- **The proposal, tailored for Gerrit:** planning, guards and the push, ported into the official plugin - a relation chain open for review on gerrit-review.
 
 <sub>[gh-stack](https://github.com/github/gh-stack) · [Graphite](https://github.com/withgraphite/agent-skills) · [GitButler](https://blog.gitbutler.com/gitbutler-0-22) · [thoughtbot](https://github.com/thoughtbot/atomic-commits-plugin) · [Cursor 3.3](https://cursor.com/changelog/05-07-26) · [PostHog](https://github.com/posthog/posthog/blob/master/.agents/skills/stacking-prs/SKILL.md) · [gerrit-mcp](https://github.com/GerritCodeReview/gerrit-mcp-server)</sub>
 
@@ -209,8 +209,10 @@ So I built the missing half: gerrit-stack - first a standalone plugin, then port
 
 ---
 
-<!-- Slide 9: One chain, one review round -->
-## One chain, one review round
+<!-- Slide 9: The proposal, in one round -->
+## The proposal, in one round
+
+**In the official plugin:** stack-planner · chain workflow · git guard · gerrit-review - conventions from `AGENTS.md`, Change-Ids from the hook, one push to `refs/for`.
 
 1. **Plan → chain:** a plain feature request, three concerns; `stack-planner` proposes three steps, you say yes; three commits, Change-Ids from the hook, `feat:` subjects from the repo's documented conventions (`AGENTS.md`, commitlint).
 2. **Push asks:** grouping? none; *"Push 3 changes to refs/for/master?"* → `git push origin HEAD:refs/for/master`; one push, three changes, one relation chain.
@@ -282,6 +284,7 @@ That's a relation chain in action - and this same workflow produced the port cha
 
 | 3 runs per cell, sandboxed · rework rows pool two variants | gerrit-mcp + port | prototype | gerrit-mcp only | vanilla | enforced by |
 |---|---|---|---|---|---|
+| unprompted runs that produced a chain | **6 / 6** | 6 / 6 | 6 / 6 | 6 / 6 | the model |
 | rework all green (+ "squash it" advice) | **5 / 6** | 6 / 6 | 1 / 6 | 4 / 6 | skill rule |
 | Change-Id re-typed in the rework | **1 / 6** | 0 / 6 | 5 / 6 | 1 / 6 | guard + hook |
 | labelled comments (opt-in) | **16 / 16** | 19 / 19 | 0 / 16 | 6 / 18 | `AGENTS.md` |
@@ -294,7 +297,7 @@ That's a relation chain in action - and this same workflow produced the port cha
 <!--
 Evidence matters. A hundred and twenty sandboxed runs, same model, same prompts, four arms: vanilla, the official plugin, the prototype on top, the official plugin with the port. Four suites; the table shows three of them - the prompted-split suite came out equal in every arm, numbers in the repo. Three runs per cell - one run of difference is noise.
 
-First surprise: every arm splits the work into chains. The model learned that. The default is there; the value is in keeping the chain. That's the honest version of the abstract.
+First surprise: every arm splits the work into chains - six of six unprompted runs, in every arm. The model learned that. Even vanilla Claude Code, given the demo prompt, pushed a three-change chain without being asked. The default is there; the value is in keeping the chain. That's the honest version of the abstract.
 
 The difference is the rework. Six changes, a blocking comment on change three, the fix conflicts with change five, and half the runs get bad advice: "amend with dash m and squash the rest".
 
@@ -340,7 +343,7 @@ Everything else on that list - the hand-typed id, amend dash m, the unasked topi
 
 <!-- Slide 12: Summary & call to action -->
 ## Summary & call-to-action
-#### The agent will stack. Keep the chain. Follow the team.
+#### The agent will stack. Let it keep the chain. Follow the team.
 
 <style scoped>
   section { font-size: 25px; }
@@ -365,7 +368,7 @@ Three things to carry out of the room.
 
 The agent will stack - you don't need to teach it that anymore.
 
-Keep the chain. That means guards at the three places it breaks: the hook that writes the Change-Id, the amend that has to keep it, and the push that has to go to refs for and ask you first.
+Let it keep the chain. The agent does the rework; the guards sit at the three places it breaks: the hook that writes the Change-Id, the amend that has to keep it, and the push that has to go to refs for and ask you first.
 
 Follow the team. Write your conventions down in the repo - commit style, review labels - and the agent follows the team, not the prompt.
 
