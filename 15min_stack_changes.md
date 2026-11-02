@@ -323,39 +323,40 @@ Everything else on the slide-seven list is cheap - a guard denies it or asks. Th
 
 <!-- Slide 12: Summary & call to action (target 1:30) -->
 ## Summary & call-to-action
-#### The agent will stack. Let it keep the chain. Follow the team.
+#### The agent will stack. Cut by concern. Keep the chain. Follow the team.
 
 <style scoped>
   section { font-size: 25px; }
+  h4 { font-size: 28px; }
   .left-align { text-align: left }
   pre > code { font-size: 15px; }
 </style>
 <div class="left-align"><b>By next Friday:</b></div>
 
-- Install the **author workflow** from its chain on gerrit-review; then review it: should Gerrit adopt it?
-- Let it **cut by concern** - one behaviour per change, the test inside - and do the stack and the rework.
-- Write the team's conventions in `AGENTS.md`; the agent follows the team.
+- Install the **author workflow**: three lines below.
+- Try it on **one real feature**: before the first yes, check that every step is one concern.
+- Add **two rules** to the `AGENTS.md` you already have: commit style, review labels.
 
 ```
 git clone https://gerrit.googlesource.com/gerrit-mcp-server && cd gerrit-mcp-server
-git fetch origin refs/changes/52/648752/1 && git checkout FETCH_HEAD
+git fetch origin refs/changes/52/648752/3 && git checkout FETCH_HEAD
 claude plugin marketplace add "$PWD" && claude plugin install gerrit@gerrit-mcp   →   /gerrit:setup
 ```
 
 <sub>Thanks! [slides](https://geminicaprograms.github.io/code_review_like_a_pro/stack/) · [the proposal on gerrit-review](https://gerrit-review.googlesource.com/c/gerrit-mcp-server/+/648752) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md) · [Discord](https://discord.gg/eEZQrtzAwV)</sub>
 
 <!--
-Three things to take home.
+Let me put it in one line. [point at the subtitle] The agent will stack. Your job is the rest: cut by concern, keep the chain, follow the team.
 
-The agent will stack. You don't need to teach it that anymore.
+So, by next Friday, three things to do.
 
-Let it keep the chain. The guards sit where it breaks: the Change-Id, the amend, and the push.
+One: install the author workflow. Three lines, on the slide.
 
-Follow the team. Write your conventions in the repo, and the agent follows the team, not the prompt.
+Two: try it on one real feature. Before you say the first yes, read the plan. Is every step one concern? If not, move a line.
 
-By next Friday, three things. First, install the author workflow. The official plugin gives you the review side; the author side is the chain on gerrit-review. The three lines are on the slide. Second, let it do the cut. The planner splits the request by concern - one behaviour per change, the test inside - and you say yes, or move a line. Third, put two team rules into the AGENTS.md you already have: your commit style and your review labels. The agent follows the team.
+Three: open the AGENTS.md you already have, and add two rules: your commit style and your review labels.
 
-One more thing. That chain is open for review as of today. Review it like any other chain. All comments are welcome, on the changes or on Discord. Thank you.
+One more thing. The chain is open for review as of today. Review it like any other chain. All comments are welcome, on the changes or on Discord. Thank you.
 
-[The fetch line points at patch set 1 of the tip change, 648752. A new patch set changes the /1. The change is private until you flip it; flip it before the talk, or the room gets a 404. The "try it yourself" page carries the long form incl. uv sync.]
+[The fetch line points at patch set 3 of the tip change, 648752 (rebased 2026-10-27 and 2026-11-02 onto master; set_hashtags merged, thread links unchained). A new patch set changes the /3. The change is private until you flip it; flip it before the talk, or the room gets a 404. The "try it yourself" page carries the long form incl. uv sync.]
 -->
