@@ -168,8 +168,9 @@ That's the target. Here is how an agent misses it.
 
 ![width:800px](assets/chain.svg)
 
-⓪ **wrong cut** - layers, halves, merged concerns &nbsp;·&nbsp; ① hand-made Change-Id &nbsp;·&nbsp; ② `--amend -m`
-③ `push … refs/heads/*` → no review
+⓪ **wrong cut** - layers, halves, merged concerns &nbsp;·&nbsp; ① hand-made Change-Id
+② `--amend -m` &nbsp;·&nbsp; ③ `push … refs/heads/*` → no review
+④ team conventions missed → a human fixes the chain before the push
 
 <!--
 You know this picture. Three commits, one push, three changes in a chain. Amend the middle one, push again: new patch sets, same Change-Ids.
@@ -183,6 +184,8 @@ One: a hand-made Change-Id. One typo, and Gerrit opens a new change, or lands on
 Two: amend with dash m. The trailer is gone, and the old change is orphaned with its review.
 
 Three: a push to refs heads instead of refs for. The review is simply skipped or closed.
+
+Four: the team's conventions. Commit style, review labels. The agent follows what it can read; a rule that lives only in a tool's config, it never sees. So a human fixes the message, or labels the comment, before the push. That's a broken chain too, just a quieter one: the agent did the work, and you did the rework.
 
 None of them is free: the agent burns tokens, and a human cleans up.
 
