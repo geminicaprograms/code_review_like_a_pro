@@ -33,7 +33,7 @@
 
   <!-- LEFT: cut by layer -->
   <rect x="24" y="24" width="520" height="352" class="frame"/>
-  <text x="44" y="52" class="tag mono">cut by layer · a stack of changes</text>
+  <text x="44" y="52" class="tag mono">cut by layer · vanilla, six runs of six</text>
   <g filter="url(#lift2)">
     <rect x="56" y="72" width="384" height="50" class="layer"/>
     <rect x="56" y="138" width="384" height="50" class="layer"/>
@@ -47,11 +47,11 @@
   <!-- depends-on arrows, bottom → top -->
   <path d="M476,295 V128" class="edge" marker-end="url(#ah2)"/>
   <text x="498" y="214" class="cap" fill="#b0341e" transform="rotate(-90 498,214)" text-anchor="middle">4 needs 3 needs 2 needs 1</text>
-  <text x="44" y="356" class="cap">nothing works alone · reviewer of 2/4 must read 4/4 · revert one? revert all</text>
+  <text x="44" y="356" class="cap">nothing works alone · tests in 4/4 · review 2/4 = read 4/4 · revert one = all</text>
 
   <!-- RIGHT: cut by concern -->
   <rect x="576" y="24" width="600" height="352" class="frame"/>
-  <text x="596" y="52" class="tag mono">cut by concern · a relation chain</text>
+  <text x="596" y="52" class="tag mono">cut by concern · what the planner proposes</text>
   <text x="1156" y="52" class="bandlbl" text-anchor="end"><tspan class="on">●</tspan> the layers it touches</text>
   <!-- layer bands behind -->
   <rect x="600" y="118" width="500" height="36" class="band"/><text x="1156" y="141" class="bandlbl mono" text-anchor="end">config</text>

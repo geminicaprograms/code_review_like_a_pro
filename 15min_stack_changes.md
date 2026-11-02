@@ -75,7 +75,7 @@ One year later, one developer produces in a day what used to take a week. The re
 <sub>[Faros 2025](https://www.faros.ai/blog/ai-software-engineering) · [Faros 2026](https://www.faros.ai/blog/ai-acceleration-whiplash-takeaways) · [LinearB](https://linearb.io/blog/8-million-prs-engineering-productivity) · [Anthropic](https://claude.com/blog/code-review) · [GitHub](https://github.blog/engineering/turn-one-giant-ai-generated-pull-request-to-a-reviewable-stack/)</sub>
 
 <!--
-Here's the data. Four sources, one picture. Pull requests got bigger, and review got slower. The interesting one is GitHub engineering, in August. One agent pull request, 1,721 lines. Their fix? They cut it into a stack of four layers - data, API, grounding and UI - four layers out of one pull request.
+Here's the data. Four sources, one picture. Pull requests got bigger, and review got slower. The interesting one is GitHub engineering, in August. One agent pull request, 1,721 lines. Their fix? A stack of four: data, API, grounding and UI.
 
 Anthropic says it in their own words: "code review has become a bottleneck".
 -->
@@ -254,33 +254,36 @@ Did it hold beyond one round? I measured it.
   section { font-size: 22px; }
   h2 { font-size: 36px; }
   th:nth-child(3), td:nth-child(3) { color: #8a8a8a; }
+  tbody tr:nth-child(3), tbody tr:nth-child(3) td { border-bottom: none; }
+  tbody tr:nth-child(4), tbody tr:nth-child(4) td { border-top: none; }
 </style>
 
-| 3 runs per cell | gerrit-mcp + author workflow | prototype | gerrit-mcp only | vanilla | enforced by |
+| 3 runs per cell · rework rows pool 2 variants | gerrit-mcp + author workflow | prototype | gerrit-mcp only | vanilla | enforced by |
 |---|---|---|---|---|---|
 | unprompted runs that produced a chain | **6 / 6** | 6 / 6 | 6 / 6 | 6 / 6 | the model |
-| rework all green (+ "squash it" advice) | **5 / 6** | 6 / 6 | 1 / 6 | 4 / 6 | skill rule |
-| Change-Id re-typed in the rework | **1 / 6** | 0 / 6 | 5 / 6 | 1 / 6 | guard + hook |
+| chain starts with a config layer | **0 / 6** | 3 / 6 | 5 / 6 | 6 / 6 | the planner |
+| rework all green | **5 / 6** | 6 / 6 | 1 / 6 | 4 / 6 | skill rule |
+| ↳ the misses: a Change-Id re-typed by hand | **1 / 6** | 0 / 6 | 5 / 6 | 1 / 6 | guard + hook |
 | labelled comments (opt-in) | **16 / 16** | 19 / 19 | 0 / 16 | 6 / 18 | `AGENTS.md` |
-
-*The author workflow keeps what the prototype measured; what differed is **how** the chain survived.*
 
 <sub>[gerrit-stack](https://github.com/geminicaprograms/gerrit-stack) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md)</sub>
 
 <!--
 A hundred and twenty sandboxed runs. Same model, same prompts, four arms: vanilla, the official plugin, the prototype, and the official plugin with the author workflow. Three runs per cell, so one run of difference is noise.
 
-First surprise: every arm splits the work into chains. Six of six unprompted runs, in every arm. Even vanilla Claude Code pushed a three-change chain without being asked. The model learned that. So the default is there; the value is in keeping the chain.
+First surprise: every arm splits the work into chains. Six of six unprompted runs, in every arm. Even vanilla Claude Code pushed a chain without being asked. The model learned that. Now look at the cut. Vanilla started all six chains with a config change - "add the setting" - then the service, then the views; the plugin-only arm five of six; in three of those runs the REST view and the SSH command landed in one change. The author workflow started none of its six chains with config: REST, SSH, ping, one behaviour per change, the setting inside the change that needs it. So stacking is there; we need to tune it to cut better, and in keep the chain.
 
-The difference is the rework. Six changes, a blocking comment on change three, and the fix conflicts with change five. And half the runs get bad advice: "amend with dash m and squash the rest".
+The difference is the rework. Six changes, a blocking comment on change three, and the fix conflicts with change five.
 
-With the author workflow, five of six runs were green on every check. The prototype six, MCP-only one, vanilla four. The chain survived in every arm; the difference is how. The MCP-only arm re-typed the Change-Id by hand in five of six runs. Right value, zero benefit, and one typo opens a new change. The author workflow retyped it once. Nothing was lost, but it's on my list to tighten.
+The chain survived in every arm; the difference is how. One thing to notice: I count a re-typed Change-Id as a miss even when the value was right. The agent should never type it. One typo, and the review is orphaned, as we saw on slide seven. With the author workflow, five of six runs were green on every check; the one miss is on my list to tighten. The prototype six, MCP-only one, vanilla four.
 
 And review comments, where the repo says "use Conventional Comments": the author workflow labelled sixteen of sixteen. MCP-only: none.
 
 Within noise, the author workflow keeps what the prototype measured.
 
 [If asked: D ran 13 days after A–C, Claude Code 2.1.302 vs 2.1.289; the seven qualification evals score 6/7 for both on today's CLI. Commitlint showed no difference: every arm's subjects passed it; its value is catching drift.]
+
+[If asked about the "squash it" variant: half the rework runs also got the advice "amend with -m and squash the rest". Nobody squashed, in any arm. Vanilla and the plugin-only arm each took the -m once in three nudged runs; vanilla also used -m once unprompted. The two plugin arms never did; the guard denies it.]
 
 [If asked: the benchmark also has a "skip the hook with no-verify" variant; left out - a hook is not slow - numbers in the repo.]
 -->
@@ -296,20 +299,24 @@ Within noise, the author workflow keeps what the prototype measured.
 
 ![width:1000px](assets/cut.svg)
 
-<sub>Chain on concerns - not on layers, not on lines.</sub>
+<sub>Small isn't the goal. Judgeable alone is: review, verify, land, revert.</sub>
 
 <!--
 Back to break number zero, the one no guard can catch: the cut.
 
-A concern is what a reviewer can judge in one sitting, and what you can revert without unpicking the rest. It runs through every layer it needs. That's why a layer is never a change.
+Take the request on top: three behaviours. Left side, cut by layer: config, then the service, then REST, then SSH. Part one of four. Small changes - and exactly what gh-stack and PostHog teach. Remember GitHub's stack of four from the start? Not one of those four is a feature. That's the cut the PR tools teach, and it looks tidy right up to the review.
 
-Take the request on top: three behaviours. Look at the left side. Config in one change, then the service, then REST, then SSH. "Part one of four." Nothing works on its own, and the reviewer of part two has to read part four to understand it. That's exactly what gh-stack and PostHog teach. GitHub's own showcase cut its 1,721 lines into data, API, grounding and UI. Not one of those four is a feature.
+So what's wrong with that, if small is what we want? Small isn't the goal. Reviewer time is the bottleneck, and a reviewer spends it per change. A layer can't be judged alone: to review the service you read the REST view. It can't be verified alone: the tests arrive in part four. It can't land alone: nothing works until four of four, so it's the big change in four pieces, plus the rebase churn. And a comment on behaviour touches every layer: four patch sets instead of one fixup. Small on the screen, big for the reviewer.
 
-Now the right side: the REST greeting with its setting, the SSH command, the per-project override. Each slice is one behaviour: the code, its caller and its test, through every layer it touches. It builds on its own, and it reads on its own. And the revert is honest: the SSH command and the override come out on their own. In the layer stack, reverting one means reverting all. So copy the stacking, not the cut.
+Right side, cut by concern: the REST greeting with its setting, the SSH command, the per-project override. Each slice is one behaviour - code, caller, test - through every layer it touches. It builds alone, reads alone, lands alone. The SSH command and the override even revert alone; the layer stack reverts all or nothing. A concern is what a reviewer can judge in one sitting. That's the unit. Copy the stacking, not the cut.
 
-Two more ways to get it wrong. Splitting by size: a big slice is a warning for the reviewer, not a reason to cut it in half. And merging concerns because someone says "just squash it": a fix goes in as a fixup, into the change it belongs to.
+This is the plan the author workflow proposes: one behaviour per change, test inside, and you approve it - the first yes. In the benchmark it never opened a chain with a config layer. Vanilla did, six of six.
 
-Everything else on that list is cheap: a guard denies it or asks. Chain on concerns, not on layers, not on lines.
+Two more wrong cuts. By size: a big slice is a warning for the reviewer, not a reason to halve it. By merging, because someone says "just squash it": a fix goes in as a fixup, into the change it belongs to.
+
+Everything else on the slide-seven list is cheap - a guard denies it or asks. The cut is yours and the planner's. Small isn't the goal. Judgeable alone is.
+
+[If asked, the request on the slide, verbatim from the plan tests: "We want demo-plugin to greet a project the same way it already answers ping. 1. REST: GET /projects/{name}/demo-plugin~greeting returns {"greeting":"<prefix>, <project>!"}; the prefix comes from [plugin "demo-plugin"] greetingPrefix in gerrit.config, default Hello. 2. SSH: demo-plugin greet <project> prints the same greeting. 3. A project can override the prefix in its own project.config; the server value stays the default. When it is done, push the work to Gerrit for review." No Gerrit words beyond the last line, no "split it". The planner cut it into the three slices on the right, in the prototype and in the author workflow alike; vanilla pushed three changes too, config first.]
 -->
 
 ---
