@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 456" width="1200" height="456" role="img" aria-label="A feature request on top; left: four horizontal layer boxes, each part n of 4, none working alone; right: three vertical slices, one per behaviour, a filled dot on each layer the slice touches, every slice carrying its test; slices two and three revert alone, slice one is their base">
+  <defs>
+    <pattern id="dots2" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#d6e0ea"/></pattern>
+    <filter id="lift2" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f1a26" flood-opacity=".14"/></filter>
+    <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker>
+  </defs>
+  <style>
+    text { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #0f1a26; }
+    .mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace; }
+    .tag { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; fill: #4d6074; }
+    .t { font-size: 20px; font-weight: 600; }
+    .cap { font-size: 15px; fill: #4d6074; }
+    .sub { font-size: 13px; fill: #818f9e; font-weight: 400; }
+    .chip { font-size: 13px; fill: #b0341e; }
+    .frame { fill: none; stroke: #d6e0ea; stroke-width: 1.5; stroke-dasharray: 6 5; rx: 10; }
+    .layer { fill: #ffffff; stroke: #b0341e; stroke-width: 1.5; rx: 6; }
+    .band { fill: #f2f6fa; stroke: none; }
+    .bandlbl { font-size: 13px; fill: #818f9e; }
+    .slice { fill: #e9f5ee; stroke: #1c7443; stroke-width: 2; rx: 6; }
+    .edge { fill: none; stroke: #b0341e; stroke-width: 1.5; stroke-dasharray: 4 4; }
+    .on { fill: #1c7443; }
+    .off { fill: #ffffff; stroke: #b9cfc2; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0" y="0" width="1200" height="456" fill="url(#dots2)" opacity=".55"/>
+
+  <!-- the feature request that drove both cuts -->
+  <g filter="url(#lift2)"><rect x="24" y="16" width="1152" height="40" rx="6" fill="#ffffff" stroke="#818f9e" stroke-width="1.5"/></g>
+  <text x="40" y="42" class="t" font-size="17">Feature request: greet a project</text>
+  <text x="420" y="42" class="cap" font-size="14">① REST greet with a prefix setting &#160;·&#160; ② SSH greet &#160;·&#160; ③ per-project override</text>
+
+  <g transform="translate(0,56)">
+
+  <!-- LEFT: cut by layer -->
+  <rect x="24" y="24" width="520" height="352" class="frame"/>
+  <text x="44" y="52" class="tag mono">cut by layer · vanilla, six runs of six</text>
+  <g filter="url(#lift2)">
+    <rect x="56" y="72" width="384" height="50" class="layer"/>
+    <rect x="56" y="138" width="384" height="50" class="layer"/>
+    <rect x="56" y="204" width="384" height="50" class="layer"/>
+    <rect x="56" y="270" width="384" height="50" class="layer"/>
+  </g>
+  <text x="72" y="103" class="t">config <tspan class="sub" dx="8">prefix, per-project override</tspan></text><text x="424" y="103" class="chip mono" text-anchor="end">part 1/4</text>
+  <text x="72" y="169" class="t">service <tspan class="sub" dx="8">greeting, override lookup</tspan></text><text x="424" y="169" class="chip mono" text-anchor="end">part 2/4</text>
+  <text x="72" y="235" class="t">REST view</text><text x="424" y="235" class="chip mono" text-anchor="end">part 3/4</text>
+  <text x="72" y="301" class="t">SSH command <tspan class="sub" dx="8">+ all the tests</tspan></text><text x="424" y="301" class="chip mono" text-anchor="end">part 4/4</text>
+  <!-- depends-on arrows, bottom → top -->
+  <path d="M476,295 V128" class="edge" marker-end="url(#ah2)"/>
+  <text x="498" y="214" class="cap" fill="#b0341e" transform="rotate(-90 498,214)" text-anchor="middle">4 needs 3 needs 2 needs 1</text>
+  <text x="44" y="356" class="cap">nothing works alone · tests in 4/4 · review 2/4 = read 4/4 · revert one = all</text>
+
+  <!-- RIGHT: cut by concern -->
+  <rect x="576" y="24" width="600" height="352" class="frame"/>
+  <text x="596" y="52" class="tag mono">cut by concern · what the planner proposes</text>
+  <text x="1156" y="52" class="bandlbl" text-anchor="end"><tspan class="on">●</tspan> the layers it touches</text>
+  <!-- layer bands behind -->
+  <rect x="600" y="118" width="500" height="36" class="band"/><text x="1156" y="141" class="bandlbl mono" text-anchor="end">config</text>
+  <rect x="600" y="159" width="500" height="36" class="band"/><text x="1156" y="182" class="bandlbl mono" text-anchor="end">service</text>
+  <rect x="600" y="200" width="500" height="36" class="band"/><text x="1156" y="223" class="bandlbl mono" text-anchor="end">REST</text>
+  <rect x="600" y="241" width="500" height="36" class="band"/><text x="1156" y="264" class="bandlbl mono" text-anchor="end">SSH</text>
+  <rect x="600" y="282" width="500" height="36" class="band"/><text x="1156" y="305" class="bandlbl mono" text-anchor="end">test</text>
+  <!-- slices -->
+  <g filter="url(#lift2)">
+    <rect x="606" y="64" width="154" height="268" class="slice"/>
+    <rect x="771" y="64" width="154" height="268" class="slice"/>
+    <rect x="936" y="64" width="154" height="268" class="slice"/>
+  </g>
+  <text x="615" y="81" font-size="14" fill="#1c7443">①</text>
+  <text x="683" y="95" class="t" text-anchor="middle" font-size="15">REST greet</text><text x="683" y="113" class="t" text-anchor="middle" font-size="15">+ setting</text>
+  <circle cx="683" cy="136" r="5" class="on"/>
+  <circle cx="683" cy="177" r="5" class="on"/>
+  <circle cx="683" cy="218" r="5" class="on"/>
+  <circle cx="683" cy="259" r="5" class="off"/>
+  <circle cx="683" cy="300" r="5" class="on"/>
+  <text x="780" y="81" font-size="14" fill="#1c7443">②</text>
+  <text x="848" y="95" class="t" text-anchor="middle" font-size="15">SSH</text><text x="848" y="113" class="t" text-anchor="middle" font-size="15">greet</text>
+  <circle cx="848" cy="136" r="5" class="off"/>
+  <circle cx="848" cy="177" r="5" class="off"/>
+  <circle cx="848" cy="218" r="5" class="off"/>
+  <circle cx="848" cy="259" r="5" class="on"/>
+  <circle cx="848" cy="300" r="5" class="on"/>
+  <text x="945" y="81" font-size="14" fill="#1c7443">③</text>
+  <text x="1013" y="95" class="t" text-anchor="middle" font-size="15">project</text><text x="1013" y="113" class="t" text-anchor="middle" font-size="15">override</text>
+  <circle cx="1013" cy="136" r="5" class="on"/>
+  <circle cx="1013" cy="177" r="5" class="on"/>
+  <circle cx="1013" cy="218" r="5" class="off"/>
+  <circle cx="1013" cy="259" r="5" class="off"/>
+  <circle cx="1013" cy="300" r="5" class="on"/>
+  <text x="596" y="356" class="cap">builds alone · reviews alone · ② ③ revert alone, ① is their base · bottom merges first</text>
+  </g>
+</svg>

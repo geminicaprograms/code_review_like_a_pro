@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" width="1200" height="430" role="img" aria-label="The proposal: a feature request flows through plan, chain, push, review and rework inside the official Gerrit MCP plugin; guards sit at commit, push and comment; the user says yes at the plan, the push and the reply; conventions come from AGENTS.md">
+  <defs>
+    <pattern id="pdots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#d6e0ea"/></pattern>
+    <filter id="plift" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f1a26" flood-opacity=".14"/></filter>
+    <marker id="pah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker>
+  </defs>
+  <style>
+    text { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #0f1a26; }
+    .mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace; }
+    .tag { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; fill: #4d6074; }
+    .t { font-size: 19px; font-weight: 600; }
+    .s { font-size: 14px; fill: #4d6074; }
+    .cap { font-size: 15px; fill: #4d6074; }
+    .frame { fill: none; stroke: #d6e0ea; stroke-width: 1.5; stroke-dasharray: 6 5; rx: 10; }
+    .node { fill: #ffffff; stroke: #818f9e; stroke-width: 1.5; rx: 6; }
+    .key { fill: #ffffff; stroke: #145f99; stroke-width: 2; rx: 6; }
+    .edge { fill: none; stroke: #4d6074; stroke-width: 1.5; }
+    .hot { fill: none; stroke: #145f99; stroke-width: 2.5; }
+    .guard { fill: #fbe9e7; stroke: #b0341e; stroke-width: 1.5; rx: 4; }
+    .gt { font-size: 11px; fill: #b0341e; font-weight: 600; }
+    .you { fill: #e9f5ee; stroke: #1c7443; stroke-width: 1.5; rx: 12; }
+    .yt { font-size: 12px; fill: #1c7443; font-weight: 700; }
+    .doc { fill: #f2f6fa; stroke: #818f9e; stroke-width: 1.5; }
+  </style>
+
+  <rect x="0" y="0" width="1200" height="430" fill="url(#pdots)" opacity=".55"/>
+
+  <!-- official plugin frame -->
+  <rect x="150" y="24" width="1026" height="300" class="frame"/>
+  <text x="170" y="52" class="tag mono">official gerrit-mcp plugin · author workflow (proposed)</text>
+
+  <!-- input: feature request -->
+  <g filter="url(#plift)"><rect x="24" y="120" width="112" height="70" class="node"/></g>
+  <text x="80" y="149" class="t" text-anchor="middle">request</text>
+  <text x="80" y="170" class="s" text-anchor="middle">plain words</text>
+  <path d="M136,155 H174" class="edge" marker-end="url(#pah)"/>
+
+  <!-- stage 1: plan -->
+  <g filter="url(#plift)"><rect x="176" y="110" width="182" height="90" class="key"/></g>
+  <text x="267" y="138" class="t" text-anchor="middle">plan</text>
+  <text x="267" y="158" class="s mono" text-anchor="middle">stack-planner</text>
+  <text x="267" y="178" class="s" text-anchor="middle">concerns → steps</text>
+  <path d="M358,155 H390" class="hot" marker-end="url(#pah)"/>
+
+  <!-- stage 2: chain -->
+  <g filter="url(#plift)"><rect x="392" y="110" width="182" height="90" class="key"/></g>
+  <text x="483" y="138" class="t" text-anchor="middle">chain</text>
+  <text x="483" y="158" class="s mono" text-anchor="middle">gerrit-workflow</text>
+  <text x="483" y="178" class="s" text-anchor="middle">one commit per concern</text>
+  <path d="M574,155 H606" class="hot" marker-end="url(#pah)"/>
+
+  <!-- stage 3: push -->
+  <g filter="url(#plift)"><rect x="608" y="110" width="182" height="90" class="key"/></g>
+  <text x="699" y="138" class="t" text-anchor="middle">push</text>
+  <text x="699" y="158" class="s mono" text-anchor="middle">refs/for/&lt;branch&gt;</text>
+  <text x="699" y="178" class="s" text-anchor="middle">whole chain, one push, asks</text>
+  <path d="M790,155 H822" class="hot" marker-end="url(#pah)"/>
+
+  <!-- stage 4: review -->
+  <g filter="url(#plift)"><rect x="824" y="110" width="182" height="90" class="key"/></g>
+  <text x="915" y="138" class="t" text-anchor="middle">review</text>
+  <text x="915" y="158" class="s mono" text-anchor="middle">gerrit-review</text>
+  <text x="915" y="178" class="s" text-anchor="middle">threads → fix / answer</text>
+
+  <!-- stage 5: rework, below, looping back to push -->
+  <g filter="url(#plift)"><rect x="608" y="246" width="398" height="60" class="key"/></g>
+  <text x="807" y="269" class="t" text-anchor="middle">rework</text>
+  <text x="807" y="291" class="s" text-anchor="middle">fixup → autosquash → Change-Ids verified → re-push</text>
+  <path d="M915,200 V244" class="hot" marker-end="url(#pah)"/>
+  <path d="M608,276 H590 V155 H606" class="hot" marker-end="url(#pah)"/>
+
+  <!-- guards -->
+  <g>
+    <rect x="392" y="206" width="182" height="20" class="guard"/><text x="483" y="220" class="gt" text-anchor="middle">guard: hook-made Change-Id only</text>
+    <rect x="392" y="230" width="182" height="20" class="guard"/><text x="483" y="244" class="gt" text-anchor="middle">no --amend -m · no --no-verify</text>
+    <rect x="608" y="206" width="182" height="20" class="guard"/><text x="699" y="220" class="gt" text-anchor="middle">guard: refs/for only, asks first</text>
+    <rect x="824" y="206" width="182" height="20" class="guard"/><text x="915" y="220" class="gt" text-anchor="middle">guard: labels, when opted in</text>
+  </g>
+
+  <!-- you say yes -->
+  <g>
+    <rect x="217" y="74" width="100" height="24" class="you"/><text x="267" y="90" class="yt" text-anchor="middle">you: yes</text>
+    <rect x="649" y="74" width="100" height="24" class="you"/><text x="699" y="90" class="yt" text-anchor="middle">you: yes</text>
+    <rect x="865" y="74" width="100" height="24" class="you"/><text x="915" y="90" class="yt" text-anchor="middle">you: yes</text>
+    <path d="M267,98 V108" class="edge"/><path d="M699,98 V108" class="edge"/><path d="M915,98 V108" class="edge"/>
+  </g>
+
+  <!-- conventions doc -->
+  <g filter="url(#plift)"><path d="M24,240 h100 l12,12 v54 h-112 z" class="doc"/><path d="M124,240 v12 h12" fill="none" stroke="#818f9e" stroke-width="1.5"/></g>
+  <text x="80" y="268" class="s mono" text-anchor="middle" fill="#0f1a26">AGENTS.md</text>
+  <text x="80" y="288" class="s" text-anchor="middle">commit style,</text>
+  <text x="80" y="302" class="s" text-anchor="middle">review labels</text>
+  <path d="M136,273 H176 V204" class="edge" stroke-dasharray="4 4" marker-end="url(#pah)"/>
+  <text x="200" y="330" class="cap">conventions read from the repo's docs · Change-Ids from the commit-msg hook · session context announces the rules</text>
+
+  <!-- bottom captions -->
+  <text x="24" y="392" class="cap">three times it asks you: the plan, the push, the reply · everything in between is the agent's, inside the guards</text>
+</svg>

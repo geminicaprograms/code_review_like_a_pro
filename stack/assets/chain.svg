@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="Three local commits pushed once become three Gerrit changes in one relation chain; five numbered markers show where an agent breaks it">
+  <defs>
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#d6e0ea"/></pattern>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f1a26" flood-opacity=".14"/></filter>
+    <filter id="glow" filterUnits="userSpaceOnUse" x="470" y="170" width="260" height="60"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker>
+  </defs>
+  <style>
+    text { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; fill: #0f1a26; }
+    .mono { font-family: "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace; }
+    .tag { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; fill: #4d6074; }
+    .t { font-size: 20px; font-weight: 600; }
+    .sub { font-size: 15px; fill: #4d6074; }
+    .cap { font-size: 15px; fill: #4d6074; }
+    .frame { fill: none; stroke: #d6e0ea; stroke-width: 1.5; stroke-dasharray: 6 5; rx: 10; }
+    .node { fill: #ffffff; stroke: #818f9e; stroke-width: 1.5; rx: 6; }
+    .card { fill: #ffffff; stroke: #145f99; stroke-width: 1.5; rx: 6; }
+    .cardhead { fill: #e7f0f8; }
+    .edge { fill: none; stroke: #4d6074; stroke-width: 1.5; }
+    .hot { fill: none; stroke: #145f99; stroke-width: 3; }
+    .rail { stroke: #d6e0ea; stroke-width: 3; }
+    .mark { fill: #b0341e; }
+    .mn { font-size: 15px; font-weight: 700; fill: #ffffff; }
+  </style>
+
+  <rect x="0" y="0" width="1200" height="420" fill="url(#dots)" opacity=".55"/>
+
+  <!-- LEFT: local branch -->
+  <rect x="24" y="24" width="470" height="372" class="frame"/>
+  <text x="44" y="52" class="tag mono">local branch · 3 commits, one concern each</text>
+
+  <line x1="70" y1="86" x2="70" y2="330" class="rail"/>
+  <circle cx="70" cy="110" r="6" fill="#818f9e"/><circle cx="70" cy="200" r="6" fill="#818f9e"/><circle cx="70" cy="290" r="6" fill="#818f9e"/>
+
+  <g filter="url(#lift)">
+    <rect x="96" y="80" width="360" height="60" class="node"/>
+    <rect x="96" y="170" width="360" height="60" class="node"/>
+    <rect x="96" y="260" width="360" height="60" class="node"/>
+  </g>
+  <text x="112" y="105" class="t">C1  feat: greeting prefix</text><text x="112" y="129" class="sub mono">Change-Id: I7a1…c3</text>
+  <text x="112" y="195" class="t">C2  feat: REST greeting</text><text x="112" y="219" class="sub mono">Change-Id: I9b2…e4</text>
+  <text x="112" y="285" class="t">C3  feat: SSH greet</text><text x="112" y="309" class="sub mono">Change-Id: I4c3…f5</text>
+
+  <path d="M276,170 V140" class="edge" marker-end="url(#ah)"/>
+  <path d="M276,260 V230" class="edge" marker-end="url(#ah)"/>
+  <text x="288" y="160" class="cap">parent</text>
+
+  <text x="44" y="378" class="cap">the commit-msg hook writes every Change-Id</text>
+
+  <!-- MIDDLE: the push -->
+  <path d="M494,200 H700" stroke="#145f99" stroke-width="10" stroke-opacity=".18" fill="none" stroke-linecap="round"/>
+  <path d="M494,200 H706" class="hot" marker-end="url(#ah)"/>
+  <rect x="476" y="146" width="250" height="30" rx="4" fill="#fdfdfd"/>
+  <text x="600" y="167" class="mono" text-anchor="middle" font-size="17" fill="#145f99">git push origin HEAD:refs/for/master</text>
+  <text x="600" y="232" class="cap" text-anchor="middle">one push</text>
+
+  <!-- RIGHT: Gerrit -->
+  <rect x="706" y="24" width="470" height="372" class="frame"/>
+  <text x="726" y="52" class="tag mono">Gerrit · 3 changes, one relation chain</text>
+
+  <g filter="url(#lift)">
+    <rect x="740" y="80" width="340" height="60" class="card"/>
+    <rect x="740" y="170" width="340" height="60" class="card"/>
+    <rect x="740" y="260" width="340" height="60" class="card"/>
+  </g>
+  <g class="cardhead">
+    <path d="M740,86 a6,6 0 0 1 6,-6 h328 a6,6 0 0 1 6,6 v18 h-340 z"/>
+    <path d="M740,176 a6,6 0 0 1 6,-6 h328 a6,6 0 0 1 6,6 v18 h-340 z"/>
+    <path d="M740,266 a6,6 0 0 1 6,-6 h328 a6,6 0 0 1 6,6 v18 h-340 z"/>
+  </g>
+  <text x="756" y="98" class="sub mono" fill="#145f99">#1 · patch set 1</text><text x="756" y="128" class="t">feat: greeting prefix</text>
+  <text x="756" y="188" class="sub mono" fill="#145f99">#2 · patch set 1</text><text x="756" y="218" class="t">feat: REST greeting</text>
+  <text x="756" y="278" class="sub mono" fill="#145f99">#3 · patch set 1</text><text x="756" y="308" class="t">feat: SSH greet</text>
+
+  <path d="M1096,82 h10 v236 h-10" class="edge"/>
+  <text x="1134" y="200" class="tag mono" text-anchor="middle" transform="rotate(90 1134,200)">Related Changes</text>
+
+  <text x="726" y="356" class="cap">amend C2 → #2 PS2, #3 PS2 rebased, same ids</text>
+  <text x="726" y="378" class="cap">Rebase chain · Submitted Together</text>
+
+  <!-- failure markers 0–4 -->
+  <g>
+    <circle cx="474" cy="46" r="13" class="mark"/><text x="474" y="51.5" class="mn" text-anchor="middle">0</text>
+    <circle cx="456" cy="128" r="13" class="mark"/><text x="456" y="133.5" class="mn" text-anchor="middle">1</text>
+    <circle cx="456" cy="218" r="13" class="mark"/><text x="456" y="223.5" class="mn" text-anchor="middle">2</text>
+    <circle cx="600" cy="262" r="13" class="mark"/><text x="600" y="267.5" class="mn" text-anchor="middle">3</text>
+    <circle cx="1124" cy="46" r="13" class="mark"/><text x="1124" y="51.5" class="mn" text-anchor="middle">4</text>
+  </g>
+</svg>
