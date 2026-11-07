@@ -269,7 +269,7 @@ Did it hold beyond one round? I measured it.
 |---|---|---|---|---|---|
 | unprompted runs that produced a chain | **6 / 6** | 6 / 6 | 6 / 6 | 6 / 6 | the model |
 | chain starts with a config layer | **0 / 6** | 3 / 6 | 5 / 6 | 6 / 6 | the planner |
-| rework all green | **5 / 6** | 6 / 6 | 1 / 6 | 4 / 6 | skill rule |
+| rework all green | **5 / 6** | 6 / 6 | 1 / 6 | 5 / 6 | skill rule |
 | ↳ the misses: a Change-Id re-typed by hand | **1 / 6** | 0 / 6 | 5 / 6 | 1 / 6 | guard + hook |
 | labelled comments (opt-in) | **16 / 16** | 19 / 19 | 0 / 16 | 6 / 18 | `AGENTS.md` |
 
@@ -282,7 +282,7 @@ First surprise: every arm splits the work into chains. Six of six unprompted run
 
 The difference is the rework. Six changes, a blocking comment on change three, and the fix conflicts with change five.
 
-The chain survived in every arm; the difference is how. One thing to notice: I count a re-typed Change-Id as a miss even when the value was right. The agent should never type it. One typo, and the review is orphaned, as we saw on slide seven. With the author workflow, five of six runs were green on every check; the one miss is on my list to tighten. The prototype six, MCP-only one, vanilla four.
+The chain survived in every arm; the difference is how. One thing to notice: I count a re-typed Change-Id as a miss even when the value was right. The agent should never type it. One typo, and the review is orphaned, as we saw on slide seven. With the author workflow, five of six runs were green on every check; the one miss is on my list to tighten. The prototype six, MCP-only one, vanilla five.
 
 And review comments, where the repo says "use Conventional Comments": the author workflow labelled sixteen of sixteen. MCP-only: none.
 
