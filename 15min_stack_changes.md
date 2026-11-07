@@ -339,14 +339,14 @@ Everything else on the slide-seven list is cheap - a guard denies it or asks. Th
 
 ```
 git clone https://gerrit.googlesource.com/gerrit-mcp-server && cd gerrit-mcp-server
-git fetch origin refs/changes/52/648752/3 && git checkout FETCH_HEAD
+git fetch origin refs/changes/52/648752/4 && git checkout FETCH_HEAD
 claude plugin marketplace add "$PWD" && claude plugin install gerrit@gerrit-mcp   →   /gerrit:setup
 ```
 
 <sub>Thanks! [slides](https://geminicaprograms.github.io/code_review_like_a_pro/stack/) · [the proposal on gerrit-review](https://gerrit-review.googlesource.com/c/gerrit-mcp-server/+/648752) · [benchmark](https://github.com/geminicaprograms/gerrit-stack/blob/main/docs/benchmark.md) · [Discord](https://discord.gg/eEZQrtzAwV)</sub>
 
 <!--
-Let me put it in one line. [point at the subtitle] The agent will stack. Your job is the rest: cut by concern, keep the chain, follow the team.
+Let me put it in one line. [point at the subtitle] The agent will stack. Your job is to ensure that it will: cut by concern, keep the chain, follow the team.
 
 So, by next Friday, three things to do.
 
@@ -358,5 +358,5 @@ Three: open the AGENTS.md you already have, and add two rules: your commit style
 
 One more thing. The chain is open for review as of today. Review it like any other chain. All comments are welcome, on the changes or on Discord. Thank you.
 
-[The fetch line points at patch set 3 of the tip change, 648752 (rebased 2026-10-27 and 2026-11-02 onto master; set_hashtags merged, thread links unchained). A new patch set changes the /3. The change is private until you flip it; flip it before the talk, or the room gets a 404. The "try it yourself" page carries the long form incl. uv sync.]
+[The fetch line points at patch set 4 of the tip change, 648752 (rebased onto master 2026-10-27, 2026-11-02 and 2026-11-07; set_hashtags merged, thread links unchained). A new patch set changes the /4. The change is private until you flip it; flip it before the talk, or the room gets a 404. The "try it yourself" page carries the long form incl. uv sync.]
 -->
