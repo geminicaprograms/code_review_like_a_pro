@@ -231,7 +231,7 @@ So I built the missing half: an author workflow for the official plugin. First a
 
 ![width:1040px](assets/proposal.svg)
 
-<sub>[the proposal on gerrit-review](https://gerrit-review.googlesource.com/c/gerrit-mcp-server/+/648752) · [try it yourself](TODO-try-it-link)</sub>
+<sub>[the proposal on gerrit-review](https://gerrit-review.googlesource.com/c/gerrit-mcp-server/+/648752)</sub>
 
 <!--
 Here's the proposal, end to end.
@@ -247,8 +247,6 @@ Then review. A reviewer leaves a blocking comment on the middle change. The revi
 Three times it asks you: the plan, the push, the reply. Everything in between is the agent's work, inside the guards. And the conventions come from the repo, not from the prompt.
 
 Did it hold beyond one round? I measured it.
-
-[TODO try-it-link: a short "try it yourself" page for the audience. Content: (1) fetch the author-workflow chain from gerrit-review into a gerrit-mcp-server checkout (git fetch the tip change's ref, or clone + fetch by change number); (2) install the plugin from that checkout: claude plugin marketplace add <checkout path> → claude plugin install gerrit@gerrit-mcp, or per session claude --plugin-dir <checkout>; build its environment (uv sync) so the guard and session context have their console scripts; (3) point it at a Gerrit host with /gerrit:setup; (4) in any Gerrit-backed repo with an AGENTS.md: a plain feature request → plan → chain → push question → review round. Could live as docs/try-it.md in gerrit-mcp-server (in the chain) or in gerrit-stack. Link goes on slides 9 and 12.]
 
 [If asked how the other arms reworked: all landed the fix on the right change and kept the Change-Id set; vanilla used rebase -i "edit" + amend --no-edit; MCP-only rewrote the message in a heredoc and re-typed the Change-Id in five of six runs; the plugin: fixup, autosquash, verify-ids.]
 -->
