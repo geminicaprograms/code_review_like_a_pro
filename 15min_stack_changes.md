@@ -4,6 +4,7 @@ title: How to Stack Changes like a Pro
 description: 15-minute talk, Gerrit User Summit 2026
 theme: uncover
 footer: '![](assets/gus-footer-thin.png)'
+header: '![](assets/gus-2026-logo.png)'
 style: |
   section { font-size: 28px; }
   h1 { font-size: 54px; }
@@ -17,6 +18,9 @@ style: |
     right: 1.2rem;
     font-size: 18px;
   }
+  /* GUS logo top right */
+  section>header { left: auto; right: 20px; top: 16px; width: auto; margin: 0; padding: 0; line-height: 0; text-shadow: none; }
+  section>header img { height: 64px; width: auto; display: block; }
   /* GUS band as the footer, full width at the very bottom */
   section>footer { left: 0; right: 0; bottom: 0; width: 100%; margin: 0; padding: 0; line-height: 0; text-shadow: none; }
   section>footer img { display: block; width: 100%; height: auto; }
@@ -26,6 +30,7 @@ style: |
 
 <!-- Slide 1: Title (target 0:30) -->
 <!-- _footer: '' -->
+<!-- _header: '' -->
 <style scoped>
   h1 { font-size: 44px; }
   h3 { font-size: 30px; }
